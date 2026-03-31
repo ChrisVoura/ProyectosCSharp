@@ -1,0 +1,62 @@
+@page
+@model ClientesModel
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"]
+    </div>
+}
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<form action="" method="post" class="row g-3 mb-4">
+    <div class="col-md-6">
+        <input asp-for="NuevoCliente.Name" class="form-control" placeholder="Nombre" />
+    </div>
+    <div class="col-md-6">
+        <input asp-for="NuevoCliente.Email" class="form-control" placeholder="Email" />
+    </div>
+    <div class="col-md-6">
+        <button type = "submit" class="btn btn-primary">Agregar Cliente</button>
+    </div>
+</form>
+
+<br/>
+
+@if(Model.Clientes?.Any() == true)
+{
+    <Table class = "table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Fecha de Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var cliente in Model.Clientes)
+            {
+                <tr>
+                    <td>@cliente.Id</td>
+                    <td>@cliente.Name</td>
+                    <td>@cliente.Email</td>
+                    <td>@cliente.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <form asp-page-handler="Delete" asp-route-id="@cliente.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </Table>
+}else if (Model.Clientes == null){
+    <div class="alert alert-info">No hay clientes aún.</div>
+}

@@ -137,7 +137,6 @@
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/scopedcss/bundle/MiPrimeraWebApp.styles.css
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/scopedcss/projectbundle/MiPrimeraWebApp.bundle.scp.css
-/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/ybhfzvazpc-{0}-ihkfg9u6bq-ihkfg9u6bq.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/xm0dg0r3ro-{0}-mjevdid3a0-mjevdid3a0.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/rle7vfatec-{0}-bqjiyaj88i-bqjiyaj88i.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/wql9udzfvh-{0}-c2jlpeoesf-c2jlpeoesf.gz
@@ -198,8 +197,6 @@
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/tr7ps0p92t-{0}-muycvpuwrr-muycvpuwrr.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/2ewggfwp48-{0}-87fc7y1x7t-87fc7y1x7t.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/9xav6ms5rf-{0}-jfsiqqwiad-jfsiqqwiad.gz
-/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/niejjxzd6e-{0}-5e7sop3h04-5e7sop3h04.gz
-/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/j68lh1skm0-{0}-5e7sop3h04-5e7sop3h04.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/staticwebassets.build.json
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/staticwebassets.build.json.cache
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/staticwebassets.development.json
@@ -211,3 +208,6 @@
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/MiPrimeraWebApp.pdb
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/MiPrimeraWebApp.genruntimeconfig.cache
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/ref/MiPrimeraWebApp.dll
+/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/ybhfzvazpc-{0}-ofe4d6r57p-ofe4d6r57p.gz
+/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/niejjxzd6e-{0}-itla1x6s65-itla1x6s65.gz
+/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/j68lh1skm0-{0}-itla1x6s65-itla1x6s65.gz

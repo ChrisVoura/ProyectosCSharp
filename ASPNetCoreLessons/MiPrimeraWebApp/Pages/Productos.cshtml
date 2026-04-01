@@ -6,7 +6,9 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div>
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<div class="mb-5 table-responsive" >
     <form method="post">
         <p>En esta sección agrega productos a tu catálogo</p>
         <input type="text" id="nombre" name="Nombre" class="form-control" placeholder="Nombre del producto" />
@@ -34,6 +36,76 @@
             <option value="Huevos">Huevos</option>
         </select>
         <br />
+        <p><strong>URLs de las imágenes </strong></p>
+        <input type="text" id="imageUrl1" name="ImageUrl1" class="form-control" placeholder="URL de la imagen 1" />
+        <br />
+        <input type="text" id="imageUrl2" name="ImageUrl2" class="form-control" placeholder="URL de la imagen 2" />
+        <br />
+        <input type="text" id="imageUrl3" name="ImageUrl3" class="form-control" placeholder="URL de la imagen 3" />
+        <br />
         <button type="submit" class="btn btn-primary">Agregar producto</button>
     </form>
+ <br/>
+ 
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var producto in Model.Productos)
+        {
+            <tr>
+                <td>@producto.Id</td>
+                <td>@producto.Name</td>
+                <td>₡@producto.Price.ToString("F3") </td>
+                <td class="truncate-table">@producto.Description</td>
+                <td>@producto.Category</td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@producto.Id" data-name="@producto.Name">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 </div>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que quieres eliminar el producto <strong id="productName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="post" asp-page-handler="Delete" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const name = button.getAttribute('data-name');
+        
+        document.getElementById('productName').textContent = name;
+        const form = document.getElementById('deleteForm');
+        form.action = '?handler=Delete&id=' + id;
+    });
+</script>

@@ -7,4 +7,5 @@ public class Producto
     public decimal Price { get; set; }
     public string? Description { get; set; }
     public required string? Category { get; set; }
+    public required string ImageUrl { get; set; }
 }

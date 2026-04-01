@@ -34,6 +34,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWJhcnJvdGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Buscar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQnVzY2FyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/CarnesYPescado.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2FybmVzWVBlc2NhZG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -48,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Contacto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGV0YWxsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Error.cshtml]

@@ -1,0 +1,27 @@
+@page
+@model JugosYBebidasModel
+@{
+    ViewData["Title"] = "Jugos y Bebidas";
+}
+<h1>@ViewData["Title"]</h1>
+<p>En esta sección encontrarás una variedad de jugos naturales y bebidas refrescantes para disfrutar</p>
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<div class = "row g-3">
+@foreach (var producto in Model.Productos)
+{
+    <div class="col-md-4">
+    <div class="card h-100">
+    <div class="card-header">@producto.Name</div>
+    <div class="card-body"><p class="truncate-description">@producto.Description</p>
+        <br/>
+        <strong>Precio: </strong> $@producto.Price 
+    </div>
+    <div class="card-footer"> 
+        <button class="btn btn-primary">Ver detalles</button>
+    </div>
+    </div>
+    </div>
+}
+</div>

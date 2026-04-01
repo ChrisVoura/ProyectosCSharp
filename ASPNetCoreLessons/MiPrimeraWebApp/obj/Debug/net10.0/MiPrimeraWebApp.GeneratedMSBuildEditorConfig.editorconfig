@@ -1,12 +1,22 @@
 is_global = true
 build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
 build_property.RootNamespace = MiPrimeraWebApp
 build_property.RootNamespace = MiPrimeraWebApp
 build_property.ProjectDir = /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/
@@ -24,6 +34,14 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWJhcnJvdGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/CarnesYPescado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2FybmVzWVBlc2NhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/CervezasYVinosYLicores.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2VydmV6YXNZVmlub3NZTGljb3Jlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Clientes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2xpZW50ZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -34,6 +52,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/FrutasYVerduras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRnJ1dGFzWVZlcmR1cmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/HigieneYBelleza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSGlnaWVuZVlCZWxsZXphLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Index.cshtml]
@@ -48,8 +74,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGFjdGVvc1lIdWV2b3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Limpieza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGltcGllemEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Productos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdG9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Shared/_ValidationScriptsPartial.cshtml]

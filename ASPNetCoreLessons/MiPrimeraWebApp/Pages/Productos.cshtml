@@ -1,0 +1,39 @@
+@page
+@model ProductosModel
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <form method="post">
+        <p>En esta sección agrega productos a tu catálogo</p>
+        <input type="text" id="nombre" name="Nombre" class="form-control" placeholder="Nombre del producto" />
+        <br/>
+        <input type="number" id="precio" name="Precio" class="form-control" step="0.01" placeholder="Precio del producto" />
+        <br/>
+        <input type="text" id="descripcion" name="Descripcion" class="form-control" placeholder="Descripción del producto" />
+        <br/>
+        <select id="categoria" name="Categoria" class="form-control">
+            <option value="">Selecciona una categoría</option>
+            <option value="Abarrotes">Abarrotes</option>
+            <option value="Lácteos">Lácteos</option>
+            <option value="Carnes">Carnes</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Limpieza">Limpieza</option>
+            <option value="Cerveza">Cerveza</option>
+            <option value="Vino">Vino</option>
+            <option value="Licores">Licores</option>
+            <option value="Pescados">Pescados</option>
+            <option value="Frutas">Frutas</option>
+            <option value="Verduras">Verduras</option>
+            <option value="Higiene">Higiene</option>
+            <option value="Belleza">Belleza</option>
+            <option value="Jugos">Jugos</option>
+            <option value="Huevos">Huevos</option>
+        </select>
+        <br />
+        <button type="submit" class="btn btn-primary">Agregar producto</button>
+    </form>
+</div>

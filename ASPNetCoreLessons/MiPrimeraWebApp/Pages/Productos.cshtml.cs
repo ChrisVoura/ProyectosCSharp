@@ -19,12 +19,30 @@ namespace MiPrimeraWebApp.Pages
         [BindProperty]
         public string? Categoria { get; set; }
 
+        [BindProperty]
+        public string? ImageUrl1 { get; set; }
+
+        [BindProperty]
+        public string? ImageUrl2 { get; set; }
+
+        [BindProperty]
+        public string? ImageUrl3 { get; set; }
+
+        public List<Producto> Productos { get; set; }
+
         public ProductosModel(AppDbContext db)
         {
             _db = db;
+            Productos = new List<Producto>();
         }
         public void OnGet()
         {
+            Productos = _db.Productos.ToList();
+
+            if (Productos.Count == 0)
+            {
+                ModelState.AddModelError("Productos", "No hay productos disponibles.");
+            }
         }
 
         public async Task<IActionResult> OnPost()
@@ -33,15 +51,35 @@ namespace MiPrimeraWebApp.Pages
             {
                 return Page();
             }
+
+            // Combinar las 3 URLs en un string separado por comas
+            var imageUrls = new List<string>();
+            if (!string.IsNullOrWhiteSpace(ImageUrl1)) imageUrls.Add(ImageUrl1);
+            if (!string.IsNullOrWhiteSpace(ImageUrl2)) imageUrls.Add(ImageUrl2);
+            if (!string.IsNullOrWhiteSpace(ImageUrl3)) imageUrls.Add(ImageUrl3);
+            var combinedImageUrl = string.Join(",", imageUrls);
+
             var nuevoProducto = new Producto
             {
                 Name = Nombre ?? string.Empty,
                 Price = Precio,
                 Description = Descripcion ?? string.Empty,
-                Category = Categoria ?? string.Empty
+                Category = Categoria ?? string.Empty,
+                ImageUrl = combinedImageUrl
             };
             _db.Productos.Add(nuevoProducto);
             await _db.SaveChangesAsync();
+            return RedirectToPage("/Productos");
+        }
+
+        public IActionResult OnPostDelete(int id)
+        {
+            var producto = _db.Productos.Find(id);
+            if (producto != null)
+            {
+                _db.Productos.Remove(producto);
+                _db.SaveChanges();
+            }
             return RedirectToPage("/Productos");
         }
     }

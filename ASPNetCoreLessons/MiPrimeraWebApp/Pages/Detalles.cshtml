@@ -45,7 +45,10 @@ else
             <p><strong>Precio:</strong> ₡@Model.Producto.Price.ToString("F3")</p>
         </div>
         <div class="card-footer">
-            <button type="button" class="btn btn-primary" onclick="history.back();">Volver</button>
+            <a class="btn btn-primary" href="javascript:history.back()">Volver</a>
+            <form method="post" asp-page="/Carrito" asp-page-handler="Agregar" asp-route-id="@Model.Producto.Id" style="display:inline;" onsubmit="actualizarIconoCarrito()">
+                <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+            </form>
         </div>
     </div>
 }

@@ -1,15 +1,16 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Tienda MenosxMas</title>
     <script>
-        (function() {
-            var savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-bs-theme', savedTheme);
-            document.documentElement.classList.add('theme-ready');
-        })();
+            (function () {
+                var savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                document.documentElement.classList.add('theme-ready');
+            })();
     </script>
     <script type="importmap"></script>
     <link rel="icon" type="image/png" href="~/logo.png?v=1" />
@@ -18,13 +19,15 @@
     <link rel="stylesheet" href="~/MiPrimeraWebApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
 </head>
+
+
 <body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">MenosxMas</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -35,10 +38,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Contacto">Contacto</a>
                         </li>
-                        <li class= "nav-item">
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Clientes">Clientes</a>
                         </li>
-                        <li class= "nav-item">
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Productos">Productos</a>
                         </li>
                     </ul>
@@ -48,7 +51,15 @@
                             <button class="btn btn-primary" type="submit" style="margin: 0 20px 0 0;">Buscar</button>
                         </form>
                     </div>
-            
+
+                    <div>
+                        <button id="carritoBtn" class="btn ms-auto me-3" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#carritoOffcanvas">
+                            <img id="carritoIcon" width="40" height="40"
+                                 src="https://img.icons8.com/keek-line/48/shopping-cart.png" alt="shopping-cart" />
+                        </button>
+                    </div>
+                    
                     <div class="form-check form-switch ms-auto me-3">
                         <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch">
                         <label class="form-check-label" for="themeSwitch">
@@ -59,6 +70,34 @@
             </div>
         </nav>
     </header>
+    
+    <!-- Offcanvas del Carrito -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="carritoOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Mi Carrito</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column p-0" id="carritoContenido">
+        </div>
+    </div>
+    
+    <style>
+        #carritoOffcanvas .offcanvas-body {
+            overflow-y: auto;
+            flex: 1;
+        }
+        #carritoOffcanvas .carrito-footer {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 1rem;
+            border-top: 1px solid #dee2e6;
+        }
+        [data-bs-theme="dark"] #carritoOffcanvas .carrito-footer {
+            background-color: #212529;
+            border-top-color: #495057;
+        }
+    </style>
 
     <main role="main" class="container flex-grow-1 pb-5">
         @RenderBody()
@@ -74,6 +113,50 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    <script>
+        async function cargarCarrito() {
+            const res = await fetch('/Carrito?handler=Contenido');
+            document.getElementById('carritoContenido').innerHTML = await res.text();
+        }
+        
+        async function actualizarIconoCarrito() {
+            try {
+                const res = await fetch('/Carrito?handler=CarritoCount');
+                const data = await res.json();
+                const img = document.getElementById('carritoIcon');
+                if (img) {
+                    img.src = data.count > 0 
+                        ? 'https://img.icons8.com/keek-line/48/shopping-cart-loaded.png'
+                        : 'https://img.icons8.com/keek-line/48/shopping-cart.png';
+                }
+            } catch (e) {}
+        }
+        
+        async function limpiarCarrito() {
+            await fetch('/Carrito?handler=Limpiar');
+            await cargarCarrito();
+            await actualizarIconoCarrito();
+        }
+        
+        async function cambiarCantidad(id, delta) {
+            await fetch('/Carrito?handler=CambiarCantidad&id=' + id + '&cantidad=' + delta);
+            await cargarCarrito();
+            await actualizarIconoCarrito();
+        }
+        
+        async function eliminarProducto(id) {
+            await fetch('/Carrito?handler=EliminarProducto&id=' + id);
+            await cargarCarrito();
+            await actualizarIconoCarrito();
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarIconoCarrito();
+            document.getElementById('carritoOffcanvas').addEventListener('show.bs.offcanvas', cargarCarrito);
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

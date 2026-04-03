@@ -170,6 +170,25 @@ main {
     background-color: #212529 !important;
 }
 
+[data-bs-theme="dark"] .navbar .nav-link,
+[data-bs-theme="dark"] .navbar-brand,
+[data-bs-theme="dark"] .navbar-toggler-icon {
+    color: #dee2e6 !important;
+}
+
+[data-bs-theme="dark"] .navbar .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+[data-bs-theme="dark"] .offcanvas {
+    background-color: #212529;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] #carritoIcon {
+    filter: invert(1) brightness(2);
+}
+
 [data-bs-theme="dark"] .product-image-container,
 [data-bs-theme="dark"] .product-card .card-footer {
   background-color: #2b3035;

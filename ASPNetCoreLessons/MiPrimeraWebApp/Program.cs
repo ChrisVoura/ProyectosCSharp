@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=app.db"));
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 
 var app = builder.Build();
@@ -31,6 +33,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapStaticAssets();
 app.MapRazorPages()

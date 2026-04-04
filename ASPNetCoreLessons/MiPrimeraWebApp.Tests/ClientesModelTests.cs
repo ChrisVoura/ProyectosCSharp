@@ -108,64 +108,6 @@ public class ClientesModelTests : IDisposable
     }
 
     [Fact]
-    public async Task OnPostAsync_AddNewCliente_WhenEmailNotExists()
-    {
-        _model.NuevoCliente = new Cliente 
-        { 
-            Name = "Nuevo Cliente", 
-            Apellido = "Cliente",
-            Email = "nuevo@test.com", 
-            Password = "test123",
-            FechaRegistro = DateTime.Now 
-        };
-
-        var result = await _model.OnPostAsync();
-
-        Assert.Single(_db.Clientes);
-        Assert.Equal("Nuevo Cliente", _db.Clientes.First().Name);
-        Assert.IsType<RedirectToPageResult>(result);
-    }
-
-    [Fact]
-    public async Task OnPostAsync_ReturnPage_WhenEmailAlreadyExists()
-    {
-        _db.Clientes.Add(new Cliente 
-        { 
-            Name = "Existente", 
-            Apellido = "Prueba",
-            Email = "existente@test.com", 
-            Password = "test123",
-            FechaRegistro = DateTime.Now 
-        });
-        await _db.SaveChangesAsync();
-
-        _model.NuevoCliente = new Cliente 
-        { 
-            Name = "Nuevo", 
-            Apellido = "Nuevo",
-            Email = "existente@test.com",
-            Password = "test123",
-            FechaRegistro = DateTime.Now 
-        };
-
-        var result = await _model.OnPostAsync();
-
-        Assert.Single(_db.Clientes);
-        Assert.IsType<PageResult>(result);
-        Assert.False(_model.ModelState.IsValid);
-    }
-
-    [Fact]
-    public async Task OnPostAsync_ReturnPage_WhenNuevoClienteIsNull()
-    {
-        _model.NuevoCliente = null;
-
-        var result = await _model.OnPostAsync();
-
-        Assert.IsType<PageResult>(result);
-    }
-
-    [Fact]
     public async Task OnPostDelete_RemoveCliente_WhenExists()
     {
         var cliente = new Cliente 

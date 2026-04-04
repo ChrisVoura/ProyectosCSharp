@@ -73,7 +73,15 @@
         <td class="truncate-table">@producto.Description</td>
         <td>@producto.Category</td>
         <td>
-            <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" data-id="@producto.Id" data-name="@producto.Name" data-price="@producto.Price" data-description="@producto.Description" data-category="@producto.Category" data-imageurl1="@urls.ElementAtOrDefault(0)" data-imageurl2="@urls.ElementAtOrDefault(1)" data-imageurl3="@urls.ElementAtOrDefault(2)">Editar</button>
+            <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" 
+                data-id="@producto.Id" 
+                data-name="@producto.Name" 
+                data-price="@producto.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)" 
+                data-description="@producto.Description" 
+                data-category="@producto.Category" 
+                data-imageurl1="@urls.ElementAtOrDefault(0)" 
+                data-imageurl2="@urls.ElementAtOrDefault(1)" 
+                data-imageurl3="@urls.ElementAtOrDefault(2)">Editar</button>
             <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@producto.Id" data-name="@producto.Name">Eliminar</button>
         </td>
     </tr>
@@ -81,6 +89,27 @@
     </tbody>
 </table>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editModal = document.getElementById('editModal');
+        if (editModal) {
+            editModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                if (button) {
+                    document.getElementById('editId').value = button.getAttribute('data-id') || '';
+                    document.getElementById('editNombre').value = button.getAttribute('data-name') || '';
+                    document.getElementById('editPrecio').value = button.getAttribute('data-price') || '';
+                    document.getElementById('editDescripcion').value = button.getAttribute('data-description') || '';
+                    document.getElementById('editCategoria').value = button.getAttribute('data-category') || '';
+                    document.getElementById('editImageUrl1').value = button.getAttribute('data-imageurl1') || '';
+                    document.getElementById('editImageUrl2').value = button.getAttribute('data-imageurl2') || '';
+                    document.getElementById('editImageUrl3').value = button.getAttribute('data-imageurl3') || '';
+                }
+            });
+        }
+    });
+</script>
 
 <!-- Modal de confirmación -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -112,7 +141,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm" method="post" asp-page-handler="Edit">
+                <form id="editForm" method="post" asp-page-handler="Editar">
                     <input type="hidden" id="editId" name="Id" />
                     <div class="mb-3">
                         <label class="form-label">Nombre</label>

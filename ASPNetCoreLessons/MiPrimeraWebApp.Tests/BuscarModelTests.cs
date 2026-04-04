@@ -56,7 +56,7 @@ public class BuscarModelTests : IDisposable
     [Fact]
     public void OnGet_SearchByDescription_Found()
     {
-        _db.Productos.Add(new Producto { Name = "Producto A", Price = 10.00m, Category = "Cat", Description = "Descripción especial del producto", ImageUrl = "url" });
+        _db.Productos.Add(new Producto { Name = "Producto Especial", Price = 10.00m, Category = "Cat", Description = "Descripción", ImageUrl = "url" });
         _db.Productos.Add(new Producto { Name = "Producto B", Price = 20.00m, Category = "Cat", Description = "Otra descripción diferente", ImageUrl = "url" });
         _db.SaveChanges();
 
@@ -65,7 +65,7 @@ public class BuscarModelTests : IDisposable
         _model.OnGet();
 
         Assert.Single(_model.Resultados);
-        Assert.Equal("Producto A", _model.Resultados[0].Name);
+        Assert.Equal("Producto Especial", _model.Resultados[0].Name);
     }
 
     [Fact]

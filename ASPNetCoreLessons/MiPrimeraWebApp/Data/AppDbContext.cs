@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     }
 
     
-    public DbSet<Producto> Productos { get; set; }
-    public DbSet<Cliente> Clientes { get; set; }
+    public DbSet<Producto> Productos { get; set; } = null!;
+    public DbSet<Cliente> Clientes { get; set; } = null!;
+    public DbSet<Pedido> Pedidos { get; set; } = null!;
 }

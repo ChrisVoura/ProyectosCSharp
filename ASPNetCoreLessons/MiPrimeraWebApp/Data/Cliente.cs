@@ -15,4 +15,12 @@ public  class Cliente
 
     required public string Password {get; set; }
     required public DateTime FechaRegistro {get; set; } = DateTime.Now;
+
+    public string Genero { get; set; } = "No especificado";
+
+    public string? Telefono { get; set; }
+
+    public string? Direccion { get; set; }
+
+    public DateTime? fechaNacimiento { get; set; }
 }

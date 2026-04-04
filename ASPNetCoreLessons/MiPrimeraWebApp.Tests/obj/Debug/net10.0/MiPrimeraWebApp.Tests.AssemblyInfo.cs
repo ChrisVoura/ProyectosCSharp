@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiPrimeraWebApp.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9ee3087c9706264b0c942105cb0c40e2ca70e31")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+64ce03256aed734afb043a868cc4b75f09f12ef7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiPrimeraWebApp.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiPrimeraWebApp.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,20 +15,6 @@
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<form action="" method="post" class="row g-3 mb-4">
-    <div class="col-md-6">
-        <input asp-for="NuevoCliente.Name" class="form-control" placeholder="Nombre" />
-    </div>
-    <div class="col-md-6">
-        <input asp-for="NuevoCliente.Email" class="form-control" placeholder="Email" />
-    </div>
-    <div class="col-md-6">
-        <button type = "submit" class="btn btn-primary">Agregar Cliente</button>
-    </div>
-</form>
-
-<br/>
-
 @if(Model.Clientes?.Any() == true)
 {
     <div class="table-responsive mb-5">
@@ -46,13 +32,11 @@
             {
                 <tr>
                     <td>@cliente.Id</td>
-                    <td>@cliente.Name</td>
+                    <td>@cliente.Name @cliente.Apellido</td>
                     <td>@cliente.Email</td>
                     <td>@cliente.FechaRegistro.ToString("dd/MM/yyyy")</td>
                     <td>
-                        <form asp-page-handler="Delete" asp-route-id="@cliente.Id" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
+                        <a asp-page="/Clientes" asp-route-id="@cliente.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
                     </td>
                 </tr>
             }

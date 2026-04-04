@@ -59,19 +59,25 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var producto in Model.Productos)
-        {
-            <tr>
-                <td>@producto.Id</td>
-                <td>@producto.Name</td>
-                <td>₡@producto.Price.ToString("F3") </td>
-                <td class="truncate-table">@producto.Description</td>
-                <td>@producto.Category</td>
-                <td>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@producto.Id" data-name="@producto.Name">Eliminar</button>
-                </td>
-            </tr>
-        }
+@{
+    string[] GetUrls(string? urls) => string.IsNullOrWhiteSpace(urls) ? new string[3] : urls.Split(',');
+}
+
+@foreach (var producto in Model.Productos)
+{
+    var urls = GetUrls(producto.ImageUrl);
+    <tr>
+        <td>@producto.Id</td>
+        <td>@producto.Name</td>
+        <td>₡@producto.Price.ToString("F3") </td>
+        <td class="truncate-table">@producto.Description</td>
+        <td>@producto.Category</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" data-id="@producto.Id" data-name="@producto.Name" data-price="@producto.Price" data-description="@producto.Description" data-category="@producto.Category" data-imageurl1="@urls.ElementAtOrDefault(0)" data-imageurl2="@urls.ElementAtOrDefault(1)" data-imageurl3="@urls.ElementAtOrDefault(2)">Editar</button>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@producto.Id" data-name="@producto.Name">Eliminar</button>
+        </td>
+    </tr>
+}
     </tbody>
 </table>
 </div>
@@ -97,15 +103,67 @@
     </div>
 </div>
 
-<script>
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const id = button.getAttribute('data-id');
-        const name = button.getAttribute('data-name');
-        
-        document.getElementById('productName').textContent = name;
-        const form = document.getElementById('deleteForm');
-        form.action = '?handler=Delete&id=' + id;
-    });
-</script>
+<!-- Modal de edición -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="post" asp-page-handler="Edit">
+                    <input type="hidden" id="editId" name="Id" />
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" id="editNombre" name="Nombre" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number" id="editPrecio" name="Precio" class="form-control" step="0.01" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <input type="text" id="editDescripcion" name="Descripcion" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoría</label>
+                        <select id="editCategoria" name="Categoria" class="form-control">
+                            <option value="Abarrotes">Abarrotes</option>
+                            <option value="Lácteos">Lácteos</option>
+                            <option value="Carnes">Carnes</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Limpieza">Limpieza</option>
+                            <option value="Cerveza">Cerveza</option>
+                            <option value="Vino">Vino</option>
+                            <option value="Licores">Licores</option>
+                            <option value="Pescados">Pescados</option>
+                            <option value="Frutas">Frutas</option>
+                            <option value="Verduras">Verduras</option>
+                            <option value="Higiene">Higiene</option>
+                            <option value="Belleza">Belleza</option>
+                            <option value="Jugos">Jugos</option>
+                            <option value="Huevos">Huevos</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">URL imagen 1</label>
+                        <input type="text" id="editImageUrl1" name="ImageUrl1" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">URL imagen 2</label>
+                        <input type="text" id="editImageUrl2" name="ImageUrl2" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">URL imagen 3</label>
+                        <input type="text" id="editImageUrl3" name="ImageUrl3" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" form="editForm" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>

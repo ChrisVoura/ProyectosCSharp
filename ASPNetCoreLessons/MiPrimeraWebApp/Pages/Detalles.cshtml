@@ -25,10 +25,10 @@ else
             </div>
             @if (imageUrls.Count > 1)
             {
-                <button class="carousel-control-prev" type="button" data-bs-target="#detailCarousel" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#detailCarousel" data-bs-slide="prev" id ="carritoIcon">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#detailCarousel" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#detailCarousel" data-bs-slide="next" id="carritoIcon">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 </button>
             }
@@ -45,7 +45,6 @@ else
             <p><strong>Precio:</strong> ₡@Model.Producto.Price.ToString("F3")</p>
         </div>
         <div class="card-footer">
-            <a class="btn btn-primary" href="javascript:history.back()">Volver</a>
             <form method="post" asp-page="/Carrito" asp-page-handler="Agregar" asp-route-id="@Model.Producto.Id" style="display:inline;" onsubmit="actualizarIconoCarrito()">
                 <button type="submit" class="btn btn-success">Agregar al Carrito</button>
             </form>

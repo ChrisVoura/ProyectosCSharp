@@ -28,6 +28,7 @@ public class ClientesModelTests : IDisposable
     private ClientesModel CreateModelWithTempData()
     {
         var httpContext = new DefaultHttpContext();
+        httpContext.Session = new TestSession();
         var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
         
         var model = new ClientesModel(_db)
@@ -51,25 +52,59 @@ public class ClientesModelTests : IDisposable
     [Fact]
     public async Task OnGetAsync_ReturnAllClientesOrderedByName()
     {
-        _db.Clientes.Add(new Cliente { Name = "Carlos", Email = "carlos@test.com", FechaRegistro = DateTime.Now });
-        _db.Clientes.Add(new Cliente { Name = "Ana", Email = "ana@test.com", FechaRegistro = DateTime.Now });
-        _db.Clientes.Add(new Cliente { Name = "Pedro", Email = "pedro@test.com", FechaRegistro = DateTime.Now });
+        _db.Clientes.Add(new Cliente { Name = "Carlos", Apellido = "Gomez", Email = "carlos@test.com", Password = "test123", FechaRegistro = DateTime.Now });
+        _db.Clientes.Add(new Cliente { Name = "Ana", Apellido = "Lopez", Email = "ana@test.com", Password = "test123", FechaRegistro = DateTime.Now });
+        _db.Clientes.Add(new Cliente { Name = "Pedro", Apellido = "Perez", Email = "pedro@test.com", Password = "test123", FechaRegistro = DateTime.Now });
         await _db.SaveChangesAsync();
 
-        await _model.OnGetAsync();
+        var httpContext = new DefaultHttpContext();
+        httpContext.Session = new TestSession();
+        httpContext.Session.SetString("UsuarioId", "1");
+        
+        var model = new ClientesModel(_db)
+        {
+            PageContext = new PageContext { HttpContext = httpContext }
+        };
 
-        Assert.Equal(3, _model.Clientes.Count);
-        Assert.Equal("Ana", _model.Clientes[0].Name);
-        Assert.Equal("Carlos", _model.Clientes[1].Name);
-        Assert.Equal("Pedro", _model.Clientes[2].Name);
+        await model.OnGetAsync(null);
+
+        Assert.Equal(3, model.Clientes.Count);
+        Assert.Equal("Ana", model.Clientes[0].Name);
+        Assert.Equal("Carlos", model.Clientes[1].Name);
+        Assert.Equal("Pedro", model.Clientes[2].Name);
     }
 
     [Fact]
     public async Task OnGetAsync_ReturnEmptyList_WhenNoClientes()
     {
-        await _model.OnGetAsync();
+        var httpContext = new DefaultHttpContext();
+        httpContext.Session = new TestSession();
+        httpContext.Session.SetString("UsuarioId", "1");
+        
+        var model = new ClientesModel(_db)
+        {
+            PageContext = new PageContext { HttpContext = httpContext }
+        };
 
-        Assert.Empty(_model.Clientes);
+        await model.OnGetAsync(null);
+
+        Assert.Empty(model.Clientes);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_RedirectToLogin_WhenNotLoggedIn()
+    {
+        var httpContext = new DefaultHttpContext();
+        httpContext.Session = new TestSession();
+        
+        var model = new ClientesModel(_db)
+        {
+            PageContext = new PageContext { HttpContext = httpContext }
+        };
+
+        await model.OnGetAsync(null);
+
+        Assert.Empty(model.Clientes);
     }
 
     [Fact]
@@ -78,7 +113,9 @@ public class ClientesModelTests : IDisposable
         _model.NuevoCliente = new Cliente 
         { 
             Name = "Nuevo Cliente", 
+            Apellido = "Cliente",
             Email = "nuevo@test.com", 
+            Password = "test123",
             FechaRegistro = DateTime.Now 
         };
 
@@ -95,7 +132,9 @@ public class ClientesModelTests : IDisposable
         _db.Clientes.Add(new Cliente 
         { 
             Name = "Existente", 
+            Apellido = "Prueba",
             Email = "existente@test.com", 
+            Password = "test123",
             FechaRegistro = DateTime.Now 
         });
         await _db.SaveChangesAsync();
@@ -103,7 +142,9 @@ public class ClientesModelTests : IDisposable
         _model.NuevoCliente = new Cliente 
         { 
             Name = "Nuevo", 
-            Email = "existente@test.com", 
+            Apellido = "Nuevo",
+            Email = "existente@test.com",
+            Password = "test123",
             FechaRegistro = DateTime.Now 
         };
 
@@ -130,7 +171,9 @@ public class ClientesModelTests : IDisposable
         var cliente = new Cliente 
         { 
             Name = "ParaEliminar", 
+            Apellido = "Elim",
             Email = "eliminar@test.com", 
+            Password = "test123",
             FechaRegistro = DateTime.Now 
         };
         _db.Clientes.Add(cliente);

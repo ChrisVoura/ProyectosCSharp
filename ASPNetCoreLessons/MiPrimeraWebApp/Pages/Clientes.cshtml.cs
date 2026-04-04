@@ -21,35 +21,20 @@ public class ClientesModel : PageModel
         Clientes = new List<Cliente>();
     }
 
-    public async Task OnGetAsync()
+    public string? EmailPrefllenado { get; set; }
+
+    public async Task OnGetAsync(string? email)
     {
+        //var usuarioLogueado = HttpContext.Session.GetString("UsuarioId");
+        
+        //if (string.IsNullOrEmpty(usuarioLogueado))
+        //{
+          //  Response.Redirect("/Login");
+          //  return;
+        //}
+
         Clientes = await _db.Clientes.AsNoTracking().ToListAsync();
         Clientes = Clientes.OrderBy(c => c.Name).ToList();
-    }
-
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (!ModelState.IsValid || NuevoCliente is null)
-        {
-            return Page();
-        }
-
-        var emailExists = await _db.Clientes.AnyAsync(c => c.Email == NuevoCliente.Email);
-
-        if (emailExists)
-        {
-            ModelState.AddModelError("NuevoCliente.Email", "El email ya existe en la base de datos.");
-            return Page();
-        }
-        else
-        {
-
-            _db.Clientes.Add(NuevoCliente);
-            await _db.SaveChangesAsync();
-
-            return RedirectToPage("/Clientes");
-            
-        }
     }
 
     public async Task<IActionResult> OnPostDelete(int id)

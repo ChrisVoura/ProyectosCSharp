@@ -66,7 +66,9 @@ public class ClienteModelTests
         var cliente = new Cliente
         {
             Name = "Test",
+            Apellido = "Test",
             Email = "test@test.com",
+            Password = "test123",
             FechaRegistro = DateTime.Now
         };
         
@@ -81,7 +83,9 @@ public class ClienteModelTests
         var cliente = new Cliente
         {
             Name = "Test User",
+            Apellido = "User",
             Email = "test@example.com",
+            Password = "test123",
             FechaRegistro = DateTime.Now
         };
 
@@ -99,7 +103,9 @@ public class ClienteModelTests
         var cliente = new Cliente
         {
             Name = "Test User",
+            Apellido = "User",
             Email = "not-an-email",
+            Password = "test123",
             FechaRegistro = DateTime.Now
         };
 

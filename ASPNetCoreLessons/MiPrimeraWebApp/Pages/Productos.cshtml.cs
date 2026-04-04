@@ -82,5 +82,15 @@ namespace MiPrimeraWebApp.Pages
             }
             return RedirectToPage("/Productos");
         }
+
+        public IActionResult OnPostEditar(int id)
+        {
+            var producto = _db.Productos.Find(id);
+            if (producto != null)
+            {
+                return RedirectToPage("/EditarProducto", new { id = producto.Id });
+            }
+            return RedirectToPage("/Productos");
+        }
     }
 }

@@ -39,10 +39,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Contacto">Contacto</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Clientes">Clientes</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Cuentas">Mi Cuenta</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Productos">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Clientes">Clientes</a>
                         </li>
                     </ul>
                     <div class="d-flex align-items-center">
@@ -81,24 +84,6 @@
         </div>
     </div>
     
-    <style>
-        #carritoOffcanvas .offcanvas-body {
-            overflow-y: auto;
-            flex: 1;
-        }
-        #carritoOffcanvas .carrito-footer {
-            position: sticky;
-            bottom: 0;
-            background: white;
-            padding: 1rem;
-            border-top: 1px solid #dee2e6;
-        }
-        [data-bs-theme="dark"] #carritoOffcanvas .carrito-footer {
-            background-color: #212529;
-            border-top-color: #495057;
-        }
-    </style>
-
     <main role="main" class="container flex-grow-1 pb-5">
         @RenderBody()
     </main>
@@ -113,48 +98,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script>
-        async function cargarCarrito() {
-            const res = await fetch('/Carrito?handler=Contenido');
-            document.getElementById('carritoContenido').innerHTML = await res.text();
-        }
-        
-        async function actualizarIconoCarrito() {
-            try {
-                const res = await fetch('/Carrito?handler=CarritoCount');
-                const data = await res.json();
-                const img = document.getElementById('carritoIcon');
-                if (img) {
-                    img.src = data.count > 0 
-                        ? 'https://img.icons8.com/keek-line/48/shopping-cart-loaded.png'
-                        : 'https://img.icons8.com/keek-line/48/shopping-cart.png';
-                }
-            } catch (e) {}
-        }
-        
-        async function limpiarCarrito() {
-            await fetch('/Carrito?handler=Limpiar');
-            await cargarCarrito();
-            await actualizarIconoCarrito();
-        }
-        
-        async function cambiarCantidad(id, delta) {
-            await fetch('/Carrito?handler=CambiarCantidad&id=' + id + '&cantidad=' + delta);
-            await cargarCarrito();
-            await actualizarIconoCarrito();
-        }
-        
-        async function eliminarProducto(id) {
-            await fetch('/Carrito?handler=EliminarProducto&id=' + id);
-            await cargarCarrito();
-            await actualizarIconoCarrito();
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            actualizarIconoCarrito();
-            document.getElementById('carritoOffcanvas').addEventListener('show.bs.offcanvas', cargarCarrito);
-        });
-    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

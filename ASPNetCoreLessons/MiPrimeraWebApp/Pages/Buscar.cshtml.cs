@@ -21,8 +21,7 @@ namespace MiPrimeraWebApp.Pages
             {
                 string query = Request.Query["query"].ToString().ToLower();
                 Resultados = _db.Productos
-                    .Where(p => p.Name.ToLower().Contains(query) || p.Description.ToLower().Contains(query))
-                    .ToList();
+                    .Where(p => p.Name.ToLower().Contains(query)).ToList();
 
                 if (Resultados.Count == 0)
                 {

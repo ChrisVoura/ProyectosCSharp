@@ -73,7 +73,7 @@ namespace MiPrimeraWebApp.Pages
                 carrito[id] = 1;
 
             GuardarCarrito(carrito);
-            return RedirectToPage("/Detalles", new { id });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult OnGetContenido()
@@ -83,20 +83,20 @@ namespace MiPrimeraWebApp.Pages
 
             if (carrito.Count == 0)
             {
-                html.Append("<p class='text-center p-3'>Tu carrito está vacío</p><div class='carrito-footer'><p class='text-center text-muted'>Agrega productos para comenzar</p></div>");
+                html.Append("<p class='text-center p-3'>Tu carrito está vacío</p>");
             }
             else
             {
                 var ids = carrito.Keys.ToList();
                 var productos = _db.Productos.Where(p => ids.Contains(p.Id)).ToList();
                 var total = carrito.Sum(c => productos.First(p => p.Id == c.Key).Price * c.Value);
+                var subtotal = total; 
 
                 html.Append("<div class='p-3'>");
                 foreach (var producto in productos)
                 {
                     var cantidad = carrito[producto.Id];
                     var imageUrls = producto.ImageUrl?.Split(',').FirstOrDefault() ?? "";
-                    var subtotal = producto.Price * cantidad;
                     html.Append($@"
                         <div class='card mb-2'>
                             <div class='card-body d-flex justify-content-between align-items-center'>
@@ -112,7 +112,7 @@ namespace MiPrimeraWebApp.Pages
                                         </div>
                                     </div>
                                 </div>
-                                <button type='button' class='btn p-0 border-0 bg-transparent' onclick='eliminarProducto({producto.Id})'>
+                                <button type='button' class='btn p-0 border-0 bg-transparent' onclick='eliminarProducto({producto.Id})' id='carritoIcon'>
                                     <img src='https://img.icons8.com/ios/50/trash--v1.png' alt='trash--v1' width='25' height='25'/>
                                 </button>
                             </div>
@@ -123,6 +123,8 @@ namespace MiPrimeraWebApp.Pages
                 html.Append($@"
                     <div class='carrito-footer'>
                         <div class='d-flex justify-content-between align-items-center mb-2'>
+                            <span class='fw-bold'>Subtotal:</span>
+                            <span class='fw-bold fs-5'>₡{subtotal:F3}</span>
                             <span class='fw-bold'>Total:</span>
                             <span class='fw-bold fs-5'>₡{total:F3}</span>
                         </div>

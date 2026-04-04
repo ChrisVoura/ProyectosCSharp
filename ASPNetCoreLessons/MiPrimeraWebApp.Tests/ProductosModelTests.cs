@@ -143,4 +143,64 @@ public class ProductosModelTests : IDisposable
         Assert.Single(_db.Productos);
         Assert.Equal(price, _db.Productos.First().Price);
     }
+
+    [Fact]
+    public void OnPostEdit_UpdateProducto_WhenExists()
+    {
+        var producto = new Producto { Name = "Original", Price = 10.00m, Category = "Cat", ImageUrl = "url" };
+        _db.Productos.Add(producto);
+        _db.SaveChanges();
+
+        _model.Id = producto.Id;
+        _model.Nombre = "Actualizado";
+        _model.Precio = 20.00m;
+        _model.Descripcion = "Nueva descripcion";
+        _model.Categoria = "NuevaCat";
+        _model.ImageUrl1 = "newurl1";
+        _model.ImageUrl2 = "newurl2";
+        _model.ImageUrl3 = "newurl3";
+
+        var result = _model.OnPostEdit();
+
+        var updated = _db.Productos.First();
+        Assert.Equal("Actualizado", updated.Name);
+        Assert.Equal(20.00m, updated.Price);
+        Assert.Equal("newurl1,newurl2,newurl3", updated.ImageUrl);
+        Assert.IsType<RedirectToPageResult>(result);
+    }
+
+    [Fact]
+    public void OnPostEdit_DoesNotThrow_WhenProductoNotExists()
+    {
+        _model.Id = 999;
+        _model.Nombre = "Test";
+        _model.Precio = 10;
+
+        var result = _model.OnPostEdit();
+
+        Assert.Empty(_db.Productos);
+        Assert.IsType<RedirectToPageResult>(result);
+    }
+
+    [Fact]
+    public void OnPostEdit_CombineImageUrls_Correctly()
+    {
+        var producto = new Producto { Name = "Test", Price = 10, Category = "Cat", ImageUrl = "old" };
+        _db.Productos.Add(producto);
+        _db.SaveChanges();
+
+        _model.Id = producto.Id;
+        _model.Nombre = "Test";
+        _model.Precio = 10;
+        _model.Descripcion = "Desc";
+        _model.Categoria = "Cat";
+        _model.ImageUrl1 = null;
+        _model.ImageUrl2 = "";
+        _model.ImageUrl3 = "onlyone.jpg";
+
+        _model.OnPostEdit();
+
+        var updated = _db.Productos.First();
+        Assert.Equal("onlyone.jpg", updated.ImageUrl);
+    }
 }

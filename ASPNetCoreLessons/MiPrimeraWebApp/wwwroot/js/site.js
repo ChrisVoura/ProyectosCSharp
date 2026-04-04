@@ -63,21 +63,6 @@ if (document.readyState === "loading") {
   initThemeSwitcher();
 }
 
-async function actualizarIconoCarrito() {
-  try {
-    const res = await fetch("/Carrito?handler=CarritoCount");
-    const data = await res.json();
-    const img = document.getElementById("carritoIcon");
-    if (img) {
-      img.src =
-        data.count > 0
-          ? "https://img.icons8.com/keek-line/48/shopping-cart-loaded.png"
-          : "https://img.icons8.com/keek-line/48/shopping-cart.png";
-    }
-  } catch (e) {}
-}
-document.addEventListener("DOMContentLoaded", actualizarIconoCarrito);
-
 async function cargarCarrito() {
   const res = await fetch("/Carrito?handler=Contenido");
   document.getElementById("carritoContenido").innerHTML = await res.text();
@@ -96,8 +81,23 @@ async function actualizarIconoCarrito() {
     }
   } catch (e) {}
 }
+
 async function limpiarCarrito() {
   await fetch("/Carrito?handler=Limpiar");
+  await cargarCarrito();
+  await actualizarIconoCarrito();
+}
+
+async function cambiarCantidad(id, delta) {
+  await fetch(
+    "/Carrito?handler=CambiarCantidad&id=" + id + "&cantidad=" + delta,
+  );
+  await cargarCarrito();
+  await actualizarIconoCarrito();
+}
+
+async function eliminarProducto(id) {
+  await fetch("/Carrito?handler=EliminarProducto&id=" + id);
   await cargarCarrito();
   await actualizarIconoCarrito();
 }
@@ -109,5 +109,33 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("show.bs.offcanvas", cargarCarrito);
 });
 
+const editModal = document.getElementById("editModal");
+editModal.addEventListener("show.bs.modal", function (event) {
+  const button = event.relatedTarget;
+  document.getElementById("editId").value = button.getAttribute("data-id");
+  document.getElementById("editNombre").value =
+    button.getAttribute("data-name");
+  document.getElementById("editPrecio").value =
+    button.getAttribute("data-price");
+  document.getElementById("editDescripcion").value =
+    button.getAttribute("data-description");
+  document.getElementById("editCategoria").value =
+    button.getAttribute("data-category");
+  document.getElementById("editImageUrl1").value =
+    button.getAttribute("data-imageurl1") || "";
+  document.getElementById("editImageUrl2").value =
+    button.getAttribute("data-imageurl2") || "";
+  document.getElementById("editImageUrl3").value =
+    button.getAttribute("data-imageurl3") || "";
+});
 
+const deleteModal = document.getElementById("deleteModal");
+deleteModal.addEventListener("show.bs.modal", function (event) {
+  const button = event.relatedTarget;
+  const id = button.getAttribute("data-id");
+  const name = button.getAttribute("data-name");
 
+  document.getElementById("productName").textContent = name;
+  const form = document.getElementById("deleteForm");
+  form.action = "?handler=Delete&id=" + id;
+});

@@ -28,12 +28,6 @@ namespace MiPrimeraWebApp.Pages
         [BindProperty]
         public string? ImageUrl3 { get; set; }
 
-        [BindProperty]
-        public int Id { get; set; }
-
-        [BindProperty]
-        public string? ImageUrls { get; set; }
-
         public List<Producto> Productos { get; set; }
 
         public ProductosModel(AppDbContext db)
@@ -89,23 +83,12 @@ namespace MiPrimeraWebApp.Pages
             return RedirectToPage("/Productos");
         }
 
-        public IActionResult OnPostEdit()
+        public IActionResult OnPostEditar(int id)
         {
-            var producto = _db.Productos.Find(Id);
+            var producto = _db.Productos.Find(id);
             if (producto != null)
             {
-                producto.Name = Nombre ?? string.Empty;
-                producto.Price = Precio;
-                producto.Description = Descripcion ?? string.Empty;
-                producto.Category = Categoria ?? string.Empty;
-                
-                var imageUrls = new List<string>();
-                if (!string.IsNullOrWhiteSpace(ImageUrl1)) imageUrls.Add(ImageUrl1);
-                if (!string.IsNullOrWhiteSpace(ImageUrl2)) imageUrls.Add(ImageUrl2);
-                if (!string.IsNullOrWhiteSpace(ImageUrl3)) imageUrls.Add(ImageUrl3);
-                producto.ImageUrl = string.Join(",", imageUrls);
-                
-                _db.SaveChanges();
+                return RedirectToPage("/EditarProducto", new { id = producto.Id });
             }
             return RedirectToPage("/Productos");
         }

@@ -104,38 +104,96 @@ async function eliminarProducto(id) {
 
 document.addEventListener("DOMContentLoaded", function () {
   actualizarIconoCarrito();
-  document
-    .getElementById("carritoOffcanvas")
-    .addEventListener("show.bs.offcanvas", cargarCarrito);
+  const carritoOffcanvas = document.getElementById("carritoOffcanvas");
+  if (carritoOffcanvas) {
+    carritoOffcanvas.addEventListener("show.bs.offcanvas", cargarCarrito);
+  }
 });
 
 const editModal = document.getElementById("editModal");
-editModal.addEventListener("show.bs.modal", function (event) {
-  const button = event.relatedTarget;
-  document.getElementById("editId").value = button.getAttribute("data-id");
-  document.getElementById("editNombre").value =
-    button.getAttribute("data-name");
-  document.getElementById("editPrecio").value =
-    button.getAttribute("data-price");
-  document.getElementById("editDescripcion").value =
-    button.getAttribute("data-description");
-  document.getElementById("editCategoria").value =
-    button.getAttribute("data-category");
-  document.getElementById("editImageUrl1").value =
-    button.getAttribute("data-imageurl1") || "";
-  document.getElementById("editImageUrl2").value =
-    button.getAttribute("data-imageurl2") || "";
-  document.getElementById("editImageUrl3").value =
-    button.getAttribute("data-imageurl3") || "";
-});
+if (editModal) {
+  editModal.addEventListener("show.bs.modal", function (event) {
+    const button = event.relatedTarget;
+    document.getElementById("editId").value = button.getAttribute("data-id");
+    document.getElementById("editNombre").value =
+      button.getAttribute("data-name");
+    document.getElementById("editPrecio").value =
+      button.getAttribute("data-price");
+    document.getElementById("editDescripcion").value =
+      button.getAttribute("data-description");
+    document.getElementById("editCategoria").value =
+      button.getAttribute("data-category");
+    document.getElementById("editImageUrl1").value =
+      button.getAttribute("data-imageurl1") || "";
+    document.getElementById("editImageUrl2").value =
+      button.getAttribute("data-imageurl2") || "";
+    document.getElementById("editImageUrl3").value =
+      button.getAttribute("data-imageurl3") || "";
+  });
+}
 
 const deleteModal = document.getElementById("deleteModal");
-deleteModal.addEventListener("show.bs.modal", function (event) {
-  const button = event.relatedTarget;
-  const id = button.getAttribute("data-id");
-  const name = button.getAttribute("data-name");
+if (deleteModal) {
+  deleteModal.addEventListener("show.bs.modal", function (event) {
+    const button = event.relatedTarget;
+    const id = button.getAttribute("data-id");
+    const name = button.getAttribute("data-name");
 
-  document.getElementById("productName").textContent = name;
-  const form = document.getElementById("deleteForm");
-  form.action = "?handler=Delete&id=" + id;
-});
+    document.getElementById("productName").textContent = name;
+    const form = document.getElementById("deleteForm");
+    form.action = "?handler=Delete&id=" + id;
+  });
+}
+
+    function toggleEdit() {
+        const inputs = ['nombreInput', 'apellidoInput', 'emailInput', 'telefonoInput', 'fechaNacimientoInput'];
+        const generoInput = document.getElementById('generoInput');
+        const saveBtn = document.getElementById('saveButton');
+        
+        inputs.forEach(id => {
+            const input = document.getElementById(id);
+            if (input.readOnly) {
+                input.removeAttribute('readonly');
+                input.classList.add('bg-white', 'border', 'border-primary');
+            } else {
+                input.setAttribute('readonly', 'true');
+                input.classList.remove('bg-white', 'border', 'border-primary');
+            }
+        });
+        
+        if (generoInput.disabled) {
+            generoInput.removeAttribute('disabled');
+            generoInput.classList.add('bg-white', 'border', 'border-primary');
+        } else {
+            generoInput.setAttribute('disabled', 'true');
+            generoInput.classList.remove('bg-white', 'border', 'border-primary');
+        }
+        
+        saveBtn.style.display = saveBtn.style.display === 'none' ? 'block' : 'none';
+    }
+
+    const perfilForm = document.getElementById('perfilForm');
+if (perfilForm) {
+    perfilForm.addEventListener('submit', function(e) {
+        console.log('Submit triggered');
+        console.log('nombreInput value:', document.getElementById('nombreInput').value);
+        console.log('hiddenNombre value before:', document.getElementById('hiddenNombre').value);
+        
+        document.getElementById('hiddenNombre').value = document.getElementById('nombreInput').value;
+        document.getElementById('hiddenApellido').value = document.getElementById('apellidoInput').value;
+        document.getElementById('hiddenEmail').value = document.getElementById('emailInput').value;
+        document.getElementById('hiddenTelefono').value = document.getElementById('telefonoInput').value;
+        document.getElementById('hiddenGenero').value = document.getElementById('generoInput').value;
+        document.getElementById('hiddenFechaNacimiento').value = document.getElementById('fechaNacimientoInput').value;
+        
+        console.log('hiddenNombre value after:', document.getElementById('hiddenNombre').value);
+    });
+}
+
+const addDireccionBtn = document.getElementById('addDireccionBtn');
+if (addDireccionBtn) {
+    addDireccionBtn.addEventListener('click', function() {
+        const form = document.getElementById('nuevaDireccionForm');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+}

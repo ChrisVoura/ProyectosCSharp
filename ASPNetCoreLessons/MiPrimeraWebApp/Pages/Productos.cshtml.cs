@@ -83,12 +83,23 @@ namespace MiPrimeraWebApp.Pages
             return RedirectToPage("/Productos");
         }
 
-        public IActionResult OnPostEditar(int id)
+        public IActionResult OnPostEditar(int id, string? Nombre, decimal Precio, string? Descripcion, string? Categoria, string? ImageUrl1, string? ImageUrl2, string? ImageUrl3)
         {
             var producto = _db.Productos.Find(id);
             if (producto != null)
             {
-                return RedirectToPage("/EditarProducto", new { id = producto.Id });
+                producto.Name = Nombre ?? producto.Name;
+                producto.Price = Precio;
+                producto.Description = Descripcion ?? producto.Description;
+                producto.Category = Categoria ?? producto.Category;
+                
+                var imageUrls = new List<string>();
+                if (!string.IsNullOrWhiteSpace(ImageUrl1)) imageUrls.Add(ImageUrl1);
+                if (!string.IsNullOrWhiteSpace(ImageUrl2)) imageUrls.Add(ImageUrl2);
+                if (!string.IsNullOrWhiteSpace(ImageUrl3)) imageUrls.Add(ImageUrl3);
+                producto.ImageUrl = string.Join(",", imageUrls);
+                
+                _db.SaveChanges();
             }
             return RedirectToPage("/Productos");
         }

@@ -35,6 +35,7 @@
                     <td>@cliente.Name @cliente.Apellido</td>
                     <td>@cliente.Email</td>
                     <td>@cliente.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                    <td>@cliente.Password</td>
                     <td>
                         <a asp-page="/Clientes" asp-route-id="@cliente.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
                     </td>

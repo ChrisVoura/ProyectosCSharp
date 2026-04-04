@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MiPrimeraWebApp.Data;
+using System.Text.RegularExpressions;
 
 namespace MiPrimeraWebApp.Pages
 {
@@ -27,6 +28,12 @@ namespace MiPrimeraWebApp.Pages
             var emailIngresado = Request.Form["Email"].ToString();
             var passwordIngresado = Request.Form["Password"].ToString();
 
+            if (!ValidarPassword(passwordIngresado))
+            {
+                ModelState.AddModelError("Password", "La contraseña debe tener al menos 12 caracteres, una mayúscula, un número y un carácter especial");
+                return Page();
+            }
+            
             var passwordHash = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(passwordIngresado));
 
             var existe = _db.Clientes.Any(c => c.Email != null && c.Email.ToLower() == emailIngresado.ToLower());
@@ -52,6 +59,12 @@ namespace MiPrimeraWebApp.Pages
             HttpContext.Session.SetString("UsuarioId", nuevoCliente.Id.ToString());
             HttpContext.Session.SetString("UsuarioNombre", $"{nombre} {apellido}");
             return RedirectToPage("/Cuentas");
+        }
+
+        private bool ValidarPassword(string password)
+        {
+            var regex = new Regex(@"^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$");
+            return regex.IsMatch(password);
         }
     }
 }

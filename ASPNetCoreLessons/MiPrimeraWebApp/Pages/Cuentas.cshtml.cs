@@ -5,9 +5,17 @@ using MiPrimeraWebApp.Data;
 
 namespace MiPrimeraWebApp.Pages
 {
+    public class ListaDeseoConProductos
+    {
+        public ListaDeseo Lista { get; set; } = null!;
+        public List<Producto> Productos { get; set; } = new();
+    }
+
     public class CuentasModel : PageModel
     {
         private readonly AppDbContext _db;
+
+        public List<ListaDeseoConProductos>? ListasDeseos { get; set; }
 
         public List<Pedido>? Pedidos { get; set; }
         public List<string>? Direcciones { get; set; }
@@ -35,6 +43,15 @@ namespace MiPrimeraWebApp.Pages
         public string? NuevaDireccion { get; set; }
         [BindProperty]
         public DateTime? FechaNacimiento { get; set; }
+
+        [BindProperty]
+        public int? ProductoId { get; set; }
+
+        [BindProperty]
+        public string? NuevaListaNombre { get; set; }
+
+        [BindProperty]
+        public int? ListaId { get; set; }
 
         public void OnGet()
         {
@@ -64,12 +81,169 @@ namespace MiPrimeraWebApp.Pages
             Direcciones = string.IsNullOrEmpty(cliente.Direccion) 
                 ? new List<string>() 
                 : new List<string> { cliente.Direccion };
+
+            var listas = _db.ListasDeseos.Where(l => l.ClienteId == id).ToList();
+            ListasDeseos = listas.Select(l => {
+                var productosIds = string.IsNullOrEmpty(l.Productos)
+                    ? new List<int>()
+                    : l.Productos.Split(',').Select(int.Parse).ToList();
+                return new ListaDeseoConProductos
+                {
+                    Lista = l,
+                    Productos = _db.Productos.Where(p => productosIds.Contains(p.Id)).ToList()
+                };
+            }).ToList();
         }
 
         public IActionResult OnPostLogout()
         {
             HttpContext.Session.Clear();
-            return RedirectToPage("/Home");
+            return RedirectToPage("/Index");
+        }
+
+        public IActionResult OnPostCrearLista()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                return new JsonResult(new { success = false, message = "Debes iniciar sesión." });
+            }
+
+            var id = int.Parse(usuarioId);
+
+            if (!string.IsNullOrEmpty(NuevaListaNombre))
+            {
+                var lista = new ListaDeseo
+                {
+                    Nombre = NuevaListaNombre,
+                    ClienteId = id,
+                    Productos = ""
+                };
+                _db.ListasDeseos.Add(lista);
+                _db.SaveChanges();
+            }
+
+            return RedirectToPage(Request.Headers["Referer"].ToString());
+        }
+
+        public IActionResult OnPostAgregarAListaEspecifica()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                return new JsonResult(new { success = false, message = "Debes iniciar sesión." });
+            }
+
+            if (ProductoId.HasValue && ListaId.HasValue)
+            {
+                var lista = _db.ListasDeseos.Find(ListaId.Value);
+                if (lista != null)
+                {
+                    var productosActual = string.IsNullOrEmpty(lista.Productos)
+                        ? new List<int>()
+                        : lista.Productos.Split(',').Select(int.Parse).ToList();
+
+                    if (!productosActual.Contains(ProductoId.Value))
+                    {
+                        productosActual.Add(ProductoId.Value);
+                        lista.Productos = string.Join(",", productosActual);
+                        _db.ListasDeseos.Attach(lista);
+                        var entry = _db.Entry(lista);
+                        entry.Property(l => l.Productos).IsModified = true;
+                        _db.SaveChanges();
+                    }
+                }
+            }
+
+            return new JsonResult(new { success = true });
+        }
+
+        public IActionResult OnPostAgregarListaAlCarrito()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                return new JsonResult(new { success = false, message = "Debes iniciar sesión." });
+            }
+
+            var id = int.Parse(usuarioId);
+
+            if (ListaId.HasValue)
+            {
+                var lista = _db.ListasDeseos.FirstOrDefault(l => l.Id == ListaId.Value && l.ClienteId == id);
+                if (lista != null && !string.IsNullOrEmpty(lista.Productos))
+                {
+                    var productosIds = lista.Productos.Split(',').Select(int.Parse).ToList();
+                    
+                    var carritoJson = HttpContext.Session.GetString("Carrito");
+                    var carrito = string.IsNullOrEmpty(carritoJson) 
+                        ? new Dictionary<int, int>() 
+                        : System.Text.Json.JsonSerializer.Deserialize<Dictionary<int, int>>(carritoJson) ?? new Dictionary<int, int>();
+
+                    foreach (var prodId in productosIds)
+                    {
+                        if (carrito.ContainsKey(prodId))
+                            carrito[prodId]++;
+                        else
+                            carrito[prodId] = 1;
+                    }
+
+                    HttpContext.Session.SetString("Carrito", System.Text.Json.JsonSerializer.Serialize(carrito));
+                }
+            }
+
+            return new JsonResult(new { success = true });
+        }
+
+        public IActionResult OnPostEliminarLista()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                return new JsonResult(new { success = false, message = "Debes iniciar sesión." });
+            }
+
+            var id = int.Parse(usuarioId);
+
+            if (ListaId.HasValue)
+            {
+                var lista = _db.ListasDeseos.FirstOrDefault(l => l.Id == ListaId.Value && l.ClienteId == id);
+                if (lista != null)
+                {
+                    _db.ListasDeseos.Remove(lista);
+                    _db.SaveChanges();
+                }
+            }
+
+            return new JsonResult(new { success = true });
+        }
+
+        public IActionResult OnPostEliminarDeLista()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                return RedirectToPage("/Cuentas");
+            }
+
+            var id = int.Parse(usuarioId);
+
+            if (ProductoId.HasValue && ListaId.HasValue)
+            {
+                var lista = _db.ListasDeseos.FirstOrDefault(l => l.Id == ListaId.Value && l.ClienteId == id);
+                if (lista != null && !string.IsNullOrEmpty(lista.Productos))
+                {
+                    var productosActual = lista.Productos.Split(',').Select(int.Parse).ToList();
+                    productosActual.Remove(ProductoId.Value);
+                    lista.Productos = string.Join(",", productosActual);
+                    _db.ListasDeseos.Attach(lista);
+                    var entry = _db.Entry(lista);
+                    entry.Property(l => l.Productos).IsModified = true;
+                    _db.SaveChanges();
+                }
+            }
+
+            return RedirectToPage("/Cuentas");
         }
 
         public IActionResult OnPostActualizar()
@@ -176,6 +350,41 @@ namespace MiPrimeraWebApp.Pages
                 _db.SaveChanges();
             }
             
+            return RedirectToPage("/Cuentas");
+        }
+
+        public IActionResult OnPostEliminarProductoLista()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                Response.Redirect("/Login");
+                return Page();
+            }
+
+            var id = int.Parse(usuarioId);
+
+            if (ProductoId.HasValue && ListaId.HasValue)
+            {
+                var lista = _db.ListasDeseos.Find(ListaId.Value);
+                if (lista != null && lista.ClienteId == id)
+                {
+                    var productosActual = string.IsNullOrEmpty(lista.Productos)
+                        ? new List<int>()
+                        : lista.Productos.Split(',').Select(int.Parse).ToList();
+
+                    if (productosActual.Contains(ProductoId.Value))
+                    {
+                        productosActual.Remove(ProductoId.Value);
+                        lista.Productos = string.Join(",", productosActual);
+                        _db.ListasDeseos.Attach(lista);
+                        var entry = _db.Entry(lista);
+                        entry.Property(l => l.Productos).IsModified = true;
+                        _db.SaveChanges();
+                    }
+                }
+            }
+
             return RedirectToPage("/Cuentas");
         }
     }

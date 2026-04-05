@@ -12,4 +12,5 @@ public class AppDbContext : DbContext
     public DbSet<Producto> Productos { get; set; } = null!;
     public DbSet<Cliente> Clientes { get; set; } = null!;
     public DbSet<Pedido> Pedidos { get; set; } = null!;
+    public DbSet<ListaDeseo> ListasDeseos { get; set; } = null!;
 }

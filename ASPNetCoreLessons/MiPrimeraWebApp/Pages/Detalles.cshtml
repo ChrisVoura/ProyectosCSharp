@@ -12,14 +12,15 @@ else
 {
     var imageUrls = Model.Producto.ImageUrl?.Split(',').Select(url => url.Trim()).ToList() ?? new List<string>();
     
+    <div class="d-flex flex-column align-items-center">
     @if (imageUrls.Count > 0)
     {
-        <div id="detailCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div id="detailCarousel" class="carousel slide mb-4" data-bs-ride="carousel" style="max-width: 500px;">
             <div class="carousel-inner">
                 @for (int i = 0; i < imageUrls.Count; i++)
                 {
                     <div class="carousel-item @(i == 0 ? "active" : "")">
-                        <img src="@imageUrls[i]" alt="@Model.Producto.Name" style="height: 400px; object-fit: contain; width: 100%; display: block; margin: 0 auto;">
+                        <img src="@imageUrls[i]" alt="@Model.Producto.Name" style="height: 300px; object-fit: contain; width: 100%; display: block; margin: 0 auto;">
                     </div>
                 }
             </div>
@@ -35,9 +36,12 @@ else
         </div>
     }
 
-    <div class="card mb-5">
-        <div class="card-header">
+    <div class="card mb-5" style="max-width: 700px; width: 100%;">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h2>@Model.Producto.Name</h2>
+            <button type="button" class="btn btn-link p-0" onclick="agregarALista(@Model.Producto.Id, event)" title="Agregar a mi lista">
+                <img width="40" height="40" src="https://img.icons8.com/parakeet-line/48/hearts.png" alt="hearts"/>
+            </button>
         </div>
         <div class="card-body">
             <p><strong>Categoría:</strong> @Model.Producto.Category</p>
@@ -49,5 +53,6 @@ else
                 <button type="submit" class="btn btn-success">Agregar al Carrito</button>
             </form>
         </div>
+    </div>
     </div>
 }

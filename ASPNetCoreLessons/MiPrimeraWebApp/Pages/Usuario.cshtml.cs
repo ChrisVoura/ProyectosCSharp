@@ -34,7 +34,7 @@ namespace MiPrimeraWebApp.Pages
                 return Page();
             }
             
-            var passwordHash = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(passwordIngresado));
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(passwordIngresado);
 
             var existe = _db.Clientes.Any(c => c.Email != null && c.Email.ToLower() == emailIngresado.ToLower());
             

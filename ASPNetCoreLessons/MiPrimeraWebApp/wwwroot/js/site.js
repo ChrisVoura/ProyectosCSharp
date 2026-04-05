@@ -197,3 +197,162 @@ if (addDireccionBtn) {
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     });
 }
+
+function agregarALista(productoId, event) {
+    const btn = event.currentTarget;
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value 
+        || document.querySelector('form input[name="__RequestVerificationToken"]')?.value;
+    console.log('Token:', token);
+    
+    fetch('/Cuentas?handler=ObtenerListas', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token || ''
+        },
+        body: '__RequestVerificationToken=' + encodeURIComponent(token || '')
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response:', response);
+        return response.json();
+    })
+    .then(listas => {
+        console.log('Listas obtenidas:', listas);
+        if (!listas || listas.length === 0) {
+            showToast('No tienes listas creadas. Crea una primero en Mi Cuenta.', true, btn);
+            return;
+        }
+        
+        let popoverContent = '<div class="d-flex flex-column gap-2 p-2" style="min-width: 150px;">';
+        listas.forEach(lista => {
+            console.log('Lista:', lista);
+            popoverContent += `<button class="btn btn-sm btn-outline-primary mb-1" onclick="agregarAListaEspecifica(${productoId}, ${lista.id}, this)">${lista.nombre}</button>`;
+        });
+        popoverContent += '</div>';
+        
+        if (btn._popover) {
+            btn._popover.dispose();
+        }
+        
+        btn.setAttribute('data-bs-toggle', 'popover');
+        btn.setAttribute('data-bs-title', 'Seleccionar lista');
+        
+        btn._popover = new bootstrap.Popover(btn, {
+            trigger: 'click',
+            html: true,
+            content: popoverContent,
+            placement: 'bottom',
+            sanitize: false
+        });
+        btn._popover.show();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Debes iniciar sesión para agregar a tu lista de deseos.', true, btn);
+    });
+}
+
+function agregarAListaEspecifica(productoId, listaId, btn) {
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value 
+        || document.querySelector('form input[name="__RequestVerificationToken"]')?.value;
+    
+    fetch('/Cuentas?handler=AgregarAListaEspecifica', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token || ''
+        },
+        body: 'ProductoId=' + productoId + '&ListaId=' + listaId + '&__RequestVerificationToken=' + encodeURIComponent(token || '')
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Agregar resultado:', data);
+        const heartBtn = document.querySelector(`button[onclick*="agregarALista(${productoId}"]`);
+        showToast(data.success ? 'Producto agregado a la lista' : (data.message || 'Error al agregar'), !data.success, heartBtn);
+        if (heartBtn && heartBtn._popover) {
+            heartBtn._popover.hide();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error al agregar a la lista', true);
+    });
+}
+
+function showToast(message, isError = false, targetElement = null) {
+    const toast = document.getElementById('liveToast');
+    const toastBody = toast.querySelector('.toast-body');
+    toastBody.textContent = message;
+    toast.classList.remove('bg-success', 'bg-danger', 'text-white');
+    toast.classList.add(isError ? 'bg-danger' : 'bg-success', 'text-white');
+    
+    if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        toast.style.position = 'fixed';
+        toast.style.top = (rect.top + window.scrollY) + 'px';
+        toast.style.left = (rect.right + 10 + window.scrollX) + 'px';
+    } else {
+        toast.style.position = '';
+        toast.style.top = '';
+        toast.style.left = '';
+    }
+    
+    const bsToast = new bootstrap.Toast(toast);
+    bsToast.show();
+}
+
+function eliminarLista(listaId, btn) {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta lista?')) {
+        return;
+    }
+    
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value 
+        || document.querySelector('form input[name="__RequestVerificationToken"]')?.value;
+    
+    fetch('/Cuentas?handler=EliminarLista', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token || ''
+        },
+        body: 'ListaId=' + listaId + '&__RequestVerificationToken=' + encodeURIComponent(token || '')
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Lista eliminada', false);
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast(data.message || 'Error al eliminar la lista', true);
+        }
+    })
+    .catch(error => {
+            showToast('Error al eliminar la lista', true);
+    });
+}
+
+async function agregarListaAlCarrito(listaId) {
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value 
+        || document.querySelector('form input[name="__RequestVerificationToken"]')?.value;
+    
+    const response = await fetch('/Cuentas?handler=AgregarListaAlCarrito', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'RequestVerificationToken': token || ''
+        },
+        body: 'ListaId=' + listaId + '&__RequestVerificationToken=' + encodeURIComponent(token || '')
+    });
+    
+    console.log('Response status:', response.status);
+    const data = await response.json();
+    console.log('Response data:', data);
+    
+    if (data.success) {
+        showToast('Productos agregados al carrito', false);
+        actualizarIconoCarrito();
+    } else {
+        showToast(data.message || 'Error al agregar al carrito', true);
+    }
+}

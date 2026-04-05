@@ -61,6 +61,29 @@ namespace MiPrimeraWebApp.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("MiPrimeraWebApp.Data.ListaDeseo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Productos")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("ListasDeseos");
+                });
+
             modelBuilder.Entity("MiPrimeraWebApp.Data.Pedido", b =>
                 {
                     b.Property<int>("Id")
@@ -113,6 +136,17 @@ namespace MiPrimeraWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("MiPrimeraWebApp.Data.ListaDeseo", b =>
+                {
+                    b.HasOne("MiPrimeraWebApp.Data.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("MiPrimeraWebApp.Data.Pedido", b =>

@@ -116,7 +116,7 @@ public class LoginModelTests : IDisposable
     [Fact]
     public void OnPost_RedirectToCuentas_WhenValidCredentials()
     {
-        var passwordHash = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("password123"));
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword("password123");
         
         _db.Clientes.Add(new Cliente 
         { 
@@ -144,7 +144,7 @@ public class LoginModelTests : IDisposable
         var result = model.OnPost();
         
         var redirect = Assert.IsType<RedirectToPageResult>(result);
-        Assert.Equal("/Cuentas", redirect.PageName);
+        Assert.Equal("/Index", redirect.PageName);
     }
 
     // [Fact]
@@ -242,7 +242,7 @@ public class UsuarioModelTests : IDisposable
             { "Name", "Nuevo" },
             { "Apellido", "Usuario" },
             { "Email", "nuevo@test.com" },
-            { "Password", "password123" }
+            { "Password", "Password123!" }
         });
         httpContext.Session = new TestSession();
         

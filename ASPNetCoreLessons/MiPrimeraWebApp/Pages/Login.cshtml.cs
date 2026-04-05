@@ -56,15 +56,14 @@ namespace MiPrimeraWebApp.Pages
         {
             var emailIngresado = Request.Form["Email"].ToString();
             var passwordIngresado = Request.Form["Password"].ToString();
-            var passwordHash = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(passwordIngresado));
             
             var cliente = _db.Clientes.FirstOrDefault(c => c.Email != null && c.Email.ToLower() == emailIngresado.ToLower());
             
-            if (cliente != null && cliente.Password == passwordHash)
+            if (cliente != null && BCrypt.Net.BCrypt.Verify(passwordIngresado, cliente.Password))
             {
                 HttpContext.Session.SetString("UsuarioId", cliente.Id.ToString());
                 HttpContext.Session.SetString("UsuarioNombre", $"{cliente.Name} {cliente.Apellido}");
-                return RedirectToPage("/Cuentas");
+                return RedirectToPage("/Index");
             }
             
             EmailVal = emailIngresado;

@@ -72,6 +72,7 @@
                                 <label class="form-label">Fecha de Nacimiento</label>
                                 <input type="date" class="form-control" id="fechaNacimientoInput" value="@Model.FechaNacimiento?.ToString("yyyy-MM-dd")" readonly placeholder="Opcional"/>
                             </div>
+                            <br/>
                             <div class="mb-3" id="saveButton" style="display: none;">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
@@ -153,12 +154,87 @@
                     </div>
                 }
             </div>
-            <div class="tab-pane fade" id="pills-lista" role="tabpanel">Mi Lista</div>
+            <div class="tab-pane fade" id="pills-lista" role="tabpanel">
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#crearListaModal">+ Crear Lista</button>
+                
+                <div class="modal fade" id="crearListaModal" tabindex="-1" aria-labelledby="crearListaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="crearListaModalLabel">Crear nueva lista</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" asp-page-handler="CrearLista" id="crearListaForm">
+                                    @Html.AntiForgeryToken()
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre de la lista</label>
+                                        <input type="text" class="form-control" name="NuevaListaNombre" placeholder="Ej: Mis favoritos" required />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" form="crearListaForm" class="btn btn-primary">Crear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if(Model.ListasDeseos == null || !Model.ListasDeseos.Any()){
+                    <div class="alert alert-info">No tienes listas creadas aún.</div>
+                }else{
+                    @foreach(var lista in Model.ListasDeseos)
+                    {
+                        var productos = lista.Productos;
+                        
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5>@lista.Lista.Nombre</h5>
+                                <div>
+                                    <span class="badge bg-secondary me-2">@productos.Count productos</span>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarLista(@lista.Lista.Id, this)">Eliminar</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @if(productos.Any()){
+                                    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2">
+                                        @foreach(var prod in productos){
+                                            <div class="col">
+                                                <div class="card h-100">
+                                                    <img src="@prod.ImageUrl?.Split(',').FirstOrDefault()" class="card-img-top" alt="@prod.Name" style="height: 120px; object-fit: contain;">
+                                                    <div class="card-body p-2">
+                                                        <h6 class="card-title" style="font-size: 0.85rem;">@prod.Name</h6> 
+                                                        <p class="card-text mb-1" style="font-size: 0.9rem;">₡@prod.Price.ToString("F3")</p>
+                                                    </div>
+                                                    <div class="p-2 pt-0">
+                                                        <form method="post" asp-page-handler="EliminarDeLista" class="mb-0">
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="hidden" name="ProductoId" value="@prod.Id" />
+                                                            <input type="hidden" name="ListaId" value="@lista.Lista.Id" />
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger w-100">Eliminar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="mt-3 text-end">
+                                        <button class="btn btn-success" onclick="agregarListaAlCarrito(@lista.Lista.Id)">Agregar Lista al Carrito</button>
+                                    </div>
+                                }else{
+                                    <p class="text-muted">Esta lista está vacía.</p>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
             <div class="tab-pane fade" id="pills-cerrar" role="tabpanel">
                 <div class="text-center">
                     <h4>¿Estás seguro de que quieres cerrar sesión?</h4>
                     <div class="mt-4">
-                        <button type="button" class="btn btn-secondary me-2" data-bs-toggle="pill" data-bs-target="#pills-perfil">Cancelar</button>
+                        <button type="button" class="btn btn-secondary me-2" onclick="document.querySelector('#pills-perfil-tab').click()">Cancelar</button>
                         <form method="post" asp-page-handler="Logout" class="d-inline">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-danger">Cerrar Sesión</button>

@@ -145,22 +145,22 @@ public class ProductosModelTests : IDisposable
     }
 
     [Fact]
-    public void OnPostEditar_RedirectToEditarProducto_WhenExists()
+    public void OnPostEditar_RedirectToProductos_WhenExists()
     {
         var producto = new Producto { Name = "Test", Price = 10.00m, Category = "Cat", ImageUrl = "url" };
         _db.Productos.Add(producto);
         _db.SaveChanges();
 
-        var result = _model.OnPostEditar(producto.Id);
+        var result = _model.OnPostEditar(producto.Id, "Test", 10.00m, "Desc", "Cat", "url1", "url2", "url3");
 
         var redirect = Assert.IsType<RedirectToPageResult>(result);
-        Assert.Equal("/EditarProducto", redirect.PageName);
+        Assert.Equal("/Productos", redirect.PageName);
     }
 
     [Fact]
     public void OnPostEditar_RedirectToProductos_WhenNotExists()
     {
-        var result = _model.OnPostEditar(999);
+        var result = _model.OnPostEditar(999, "Test", 10.00m, "Desc", "Cat", "url1", "url2", "url3");
 
         var redirect = Assert.IsType<RedirectToPageResult>(result);
         Assert.Equal("/Productos", redirect.PageName);

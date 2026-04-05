@@ -112,6 +112,7 @@ namespace MiPrimeraWebApp.Pages
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <button type='button' class='btn p-0 border-0 bg-transparent' onclick='eliminarProducto({producto.Id})' id='carritoIcon'>
                                     <img src='https://img.icons8.com/ios/50/trash--v1.png' alt='trash--v1' width='25' height='25'/>
                                 </button>
@@ -128,6 +129,7 @@ namespace MiPrimeraWebApp.Pages
                             <span class='fw-bold'>Total:</span>
                             <span class='fw-bold fs-5'>₡{total:F3}</span>
                         </div>
+                        <button class='btn btn-outline-danger w-100 mb-2' onclick='limpiarCarrito()'>Limpiar Carrito</button>
                         <button class='btn btn-success w-100' onclick='finalizarCompra()'>Finalizar Compra</button>
                     </div>");
             }

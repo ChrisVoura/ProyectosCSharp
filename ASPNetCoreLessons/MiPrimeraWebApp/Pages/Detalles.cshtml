@@ -46,11 +46,28 @@ else
         <div class="card-body">
             <p><strong>Categoría:</strong> @Model.Producto.Category</p>
             <p><strong>Descripción:</strong> @Model.Producto.Description</p>
-            <p><strong>Precio:</strong> ₡@Model.Producto.Price.ToString("F3")</p>
+            @if (Model.Producto.DescuentoActivo)
+            {
+                var descuento = Model.Producto.PorcentajeDescuento > 0 ? Model.Producto.PorcentajeDescuento : 50;
+                var precioDescuento = Model.Producto.Price * (1 - descuento / 100m);
+                <p class="text-muted text-decoration-line-through"><strong>Precio:</strong> ₡@Model.Producto.Price.ToString("F3")</p>
+                <p class="text-danger"><strong>Precio:</strong> ₡@precioDescuento.ToString("F3") <span class="badge bg-danger">@descuento% OFF</span></p>
+            }
+            else
+            {
+                <p><strong>Precio:</strong> ₡@Model.Producto.Price.ToString("F3")</p>
+            }
         </div>
         <div class="card-footer">
             <form method="post" asp-page="/Carrito" asp-page-handler="Agregar" asp-route-id="@Model.Producto.Id" style="display:inline;" onsubmit="actualizarIconoCarrito()">
-                <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+                @if(Model.Producto.Stock > 0)
+                {
+                    <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-secondary" disabled>Agotado</button>
+                }
             </form>
         </div>
     </div>

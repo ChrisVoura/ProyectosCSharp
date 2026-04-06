@@ -140,7 +140,7 @@ namespace MiPrimeraWebApp.Pages
         public IActionResult OnGetLimpiar()
         {
             HttpContext.Session.Remove("Carrito");
-            return new JsonResult(new { success = true });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult OnGetCambiarCantidad(int id, int cantidad)
@@ -155,7 +155,7 @@ namespace MiPrimeraWebApp.Pages
             }
 
             GuardarCarrito(carrito);
-            return new JsonResult(new { success = true });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult OnGetEliminarProducto(int id)
@@ -163,7 +163,7 @@ namespace MiPrimeraWebApp.Pages
             var carrito = ObtenerCarrito();
             carrito.Remove(id);
             GuardarCarrito(carrito);
-            return new JsonResult(new { success = true });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

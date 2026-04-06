@@ -101,6 +101,22 @@ namespace MiPrimeraWebApp.Pages
             return RedirectToPage("/Index");
         }
 
+        public IActionResult OnPostObtenerListas()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(usuarioId))
+            {
+                return new JsonResult(new { success = false, message = "Debes iniciar sesión." });
+            }
+
+            var id = int.Parse(usuarioId);
+            var listas = _db.ListasDeseos.Where(l => l.ClienteId == id)
+                .Select(l => new { id = l.Id, nombre = l.Nombre })
+                .ToList();
+
+            return new JsonResult(listas);
+        }
+
         public IActionResult OnPostCrearLista()
         {
             var usuarioId = HttpContext.Session.GetString("UsuarioId");
@@ -123,7 +139,7 @@ namespace MiPrimeraWebApp.Pages
                 _db.SaveChanges();
             }
 
-            return RedirectToPage(Request.Headers["Referer"].ToString());
+            return RedirectToPage("/Cuentas");
         }
 
         public IActionResult OnPostAgregarAListaEspecifica()

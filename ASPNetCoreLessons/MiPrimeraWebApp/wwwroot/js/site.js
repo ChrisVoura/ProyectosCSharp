@@ -202,7 +202,6 @@ function agregarALista(productoId, event) {
     const btn = event.currentTarget;
     const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value 
         || document.querySelector('form input[name="__RequestVerificationToken"]')?.value;
-    console.log('Token:', token);
     
     fetch('/Cuentas?handler=ObtenerListas', {
         method: 'POST',
@@ -212,40 +211,65 @@ function agregarALista(productoId, event) {
         },
         body: '__RequestVerificationToken=' + encodeURIComponent(token || '')
     })
-    .then(response => {
-        console.log('Response status:', response.status);
-        console.log('Response:', response);
-        return response.json();
+    .then(res => {
+        return res.text().then(text => {
+            if (text.startsWith('<')) {
+                showToast('Debes iniciar sesión para agregar a tu lista de deseos.', true, btn);
+                return null;
+            }
+            try {
+                return JSON.parse(text);
+            } catch {
+                showToast('Debes iniciar sesión para agregar a tu lista de deseos.', true, btn);
+                return null;
+            }
+        });
     })
     .then(listas => {
-        console.log('Listas obtenidas:', listas);
-        if (!listas || listas.length === 0) {
-            showToast('No tienes listas creadas. Crea una primero en Mi Cuenta.', true, btn);
+        if (!listas) {
             return;
         }
         
-        let popoverContent = '<div class="d-flex flex-column gap-2 p-2" style="min-width: 150px;">';
-        listas.forEach(lista => {
-            console.log('Lista:', lista);
-            popoverContent += `<button class="btn btn-sm btn-outline-primary mb-1" onclick="agregarAListaEspecifica(${productoId}, ${lista.id}, this)">${lista.nombre}</button>`;
-        });
-        popoverContent += '</div>';
-        
-        if (btn._popover) {
-            btn._popover.dispose();
+        if (listas.success === false) {
+            showToast('Debes iniciar sesión para agregar a tu lista de deseos.', true, btn);
+            return;
         }
         
-        btn.setAttribute('data-bs-toggle', 'popover');
-        btn.setAttribute('data-bs-title', 'Seleccionar lista');
-        
-        btn._popover = new bootstrap.Popover(btn, {
-            trigger: 'click',
-            html: true,
-            content: popoverContent,
-            placement: 'bottom',
-            sanitize: false
+        fetch('/Productos?handler=ObtenerStock&id=' + productoId)
+        .then(res => res.json())
+        .then(data => {
+            if (data.stock <= 0) {
+                showToast('No hay existencias de este producto.', true, btn);
+                return;
+            }
+            
+            if (!listas || listas.length === 0) {
+                showToast('No tienes listas creadas. Crea una primero en Mi Cuenta.', true, btn);
+                return;
+            }
+            
+            let popoverContent = '<div class="d-flex flex-column gap-2 p-2" style="min-width: 150px;">';
+            listas.forEach(lista => {
+                popoverContent += `<button class="btn btn-sm btn-outline-primary mb-1" onclick="agregarAListaEspecifica(${productoId}, ${lista.id}, this)">${lista.nombre}</button>`;
+            });
+            popoverContent += '</div>';
+            
+            if (btn._popover) {
+                btn._popover.dispose();
+            }
+            
+            btn.setAttribute('data-bs-toggle', 'popover');
+            btn.setAttribute('data-bs-title', 'Seleccionar lista');
+            
+            btn._popover = new bootstrap.Popover(btn, {
+                trigger: 'click',
+                html: true,
+                content: popoverContent,
+                placement: 'bottom',
+                sanitize: false
+            });
+            btn._popover.show();
         });
-        btn._popover.show();
     })
     .catch(error => {
         console.error('Error:', error);
@@ -356,3 +380,25 @@ async function agregarListaAlCarrito(listaId) {
         showToast(data.message || 'Error al agregar al carrito', true);
     }
 }
+
+document.querySelectorAll('.descuento-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const id = this.getAttribute('data-id');
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+        fetch('/Productos?handler=Descuento&id=' + id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': token || ''
+            },
+            body: '__RequestVerificationToken=' + encodeURIComponent(token || '')
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                this.checked = data.descuentoActivo;
+                showToast(data.descuentoActivo ? 'Descuento activado' : 'Descuento desactivado', false);
+            }
+        });
+    });
+});

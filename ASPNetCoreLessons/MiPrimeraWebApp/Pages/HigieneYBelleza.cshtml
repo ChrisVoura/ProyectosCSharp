@@ -64,17 +64,14 @@
                     </div>
                 </div>
                 <div class="card-footer border-top">
-                    <form method="post" asp-page="/Carrito" asp-page-handler="Agregar" asp-route-id="@producto.Id"
-                          style="display:inline; font-weight: bold;" onsubmit="actualizarIconoCarrito()">
-                        @if(producto.Stock > 0)
-                        {
-                            <button type="submit" class="btn btn-primary w-100">+ Agregar</button>
-                        }
-                        else
-                        {
-                            <button type="submit" class="btn btn-secondary w-100" disabled>Agotado</button>
-                        }
-                    </form>
+                    @if(producto.Stock > 0)
+                    {
+                        <button type="button" class="btn btn-primary w-100" onclick="agregarAlCarrito(@producto.Id)">+ Agregar</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary w-100" disabled>Agotado</button>
+                    }
                 </div>
             </div>
         </div>

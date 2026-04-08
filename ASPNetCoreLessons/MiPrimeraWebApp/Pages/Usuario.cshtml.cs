@@ -50,7 +50,8 @@ namespace MiPrimeraWebApp.Pages
                 Apellido = apellido,
                 Email = emailIngresado,
                 Password = passwordHash,
-                FechaRegistro = DateTime.Now
+                FechaRegistro = DateTime.Now,
+                Rol = "Cliente"
             };
 
             _db.Clientes.Add(nuevoCliente);
@@ -58,6 +59,7 @@ namespace MiPrimeraWebApp.Pages
 
             HttpContext.Session.SetString("UsuarioId", nuevoCliente.Id.ToString());
             HttpContext.Session.SetString("UsuarioNombre", $"{nombre} {apellido}");
+            HttpContext.Session.SetString("UsuarioRol", "Cliente");
             return RedirectToPage("/Cuentas");
         }
 

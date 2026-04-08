@@ -15,6 +15,8 @@ public class ClientesModel : PageModel
 
     public List<Cliente> Clientes {get; set;}
 
+    public string UsuarioRol { get; set; } = "";
+
     public ClientesModel(AppDbContext db)
     {
         _db = db;
@@ -23,22 +25,24 @@ public class ClientesModel : PageModel
 
     public string? EmailPrefllenado { get; set; }
 
-    public async Task OnGetAsync(string? email)
+    public async Task<IActionResult> OnGetAsync(string? email)
     {
-        //var usuarioLogueado = HttpContext.Session.GetString("UsuarioId");
-        
-        //if (string.IsNullOrEmpty(usuarioLogueado))
-        //{
-          //  Response.Redirect("/Login");
-          //  return;
-        //}
+        UsuarioRol = HttpContext.Session.GetString("UsuarioRol") ?? "";
+
+        if (UsuarioRol != "Administrador")
+        {
+            return RedirectToPage("/Index");
+        }
 
         Clientes = await _db.Clientes.AsNoTracking().ToListAsync();
         Clientes = Clientes.OrderBy(c => c.Name).ToList();
+
+        return Page();
     }
 
-    public async Task<IActionResult> OnPostDelete(int id)
+    public async Task<IActionResult> OnPostDelete()
     {
+        var id = int.Parse(Request.Form["id"]);
         var cliente = await _db.Clientes.FindAsync(id);
 
         if (cliente is not null)

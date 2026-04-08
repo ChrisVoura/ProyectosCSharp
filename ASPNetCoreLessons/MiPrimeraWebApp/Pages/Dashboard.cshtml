@@ -1,0 +1,135 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var isAdmin = Model.UsuarioRol == "Administrador";
+}
+
+<div class="container-fluid py-4">
+    <h2 class="mb-4">Panel de @(isAdmin ? "Administración" : "Empleado")</h2>
+    
+    @if (isAdmin)
+    {
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="display-4 text-primary mb-2"><img width="60" height="60" src="https://img.icons8.com/stickers/100/conference-call.png" alt="conference-call"/></div>
+                    <h5 class="card-title text-muted">Clientes</h5>
+                    <h2 class="fw-bold">@Model.TotalClientes</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="display-4 text-success mb-2"><img width="60" height="60" src="https://img.icons8.com/stickers/100/supplier.png" alt="supplier"/></div>
+                    <h5 class="card-title text-muted">Empleados</h5>
+                    <h2 class="fw-bold">@Model.TotalEmpleados</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="display-4 text-warning mb-2"><img width="60" height="60" src="https://img.icons8.com/stickers/100/products-pile.png" alt="products-pile"/></div>
+                    <h5 class="card-title text-muted">Productos</h5>
+                    <h2 class="fw-bold">@Model.TotalProductos</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100" style="@(Model.ProductosStockBajo > 0 ? "border-start border-4 border-danger" : "")">
+                <div class="card-body text-center">
+                    <div class="display-4 text-danger mb-2"><img width="60" height="60" src="https://img.icons8.com/stickers/100/error.png" alt="error"/></div>
+                    <h5 class="card-title text-muted">Stock Bajo</h5>
+                    <h2 class="fw-bold">@Model.ProductosStockBajo</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="display-4 text-warning mb-2">📦</div>
+                    <h5 class="card-title text-muted">Productos</h5>
+                    <h2 class="fw-bold">@Model.TotalProductos</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100" style="@(Model.ProductosStockBajo > 0 ? "border-start border-4 border-danger" : "")">
+                <div class="card-body text-center">
+                    <div class="display-4 text-danger mb-2">⚠️</div>
+                    <h5 class="card-title text-muted">Stock Bajo</h5>
+                    <h2 class="fw-bold">@Model.ProductosStockBajo</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Acciones Rápidas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        @if (isAdmin)
+                        {
+                        <a asp-page="/Clientes" class="btn btn-outline-primary btn-lg d-flex align-items-center justify-content-between">
+                            <span>Gestionar Clientes</span>
+                            <span class="text-muted">→</span>
+                        </a>
+                        <a asp-page="/Empleados" class="btn btn-outline-success btn-lg d-flex align-items-center justify-content-between">
+                            <span>Gestionar Empleados</span>
+                            <span class="text-muted">→</span>
+                        </a>
+                        }
+                        <a asp-page="/Productos" class="btn btn-outline-warning btn-lg d-flex align-items-center justify-content-between">
+                            <span>Gestionar Productos</span>
+                            <span class="text-muted">→</span>
+                        </a>
+                        <a asp-page="/Index" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-between">
+                            <span>Ver Tienda</span>
+                            <span class="text-muted">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Información del Sistema</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="text-muted">Usuario:</td>
+                            <td class="fw-bold">@HttpContext.Session.GetString("UsuarioNombre")</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Rol:</td>
+                            <td><span class="badge bg-@(isAdmin ? "primary" : "warning")">@Model.UsuarioRol</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Fecha:</td>
+                            <td class="fw-bold">@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Hora:</td>
+                            <td class="fw-bold">@DateTime.Now.ToString("h:mm tt")</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

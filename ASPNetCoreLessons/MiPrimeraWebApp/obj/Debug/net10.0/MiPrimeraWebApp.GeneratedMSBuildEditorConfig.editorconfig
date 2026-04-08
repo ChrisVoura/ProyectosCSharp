@@ -42,10 +42,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2FybmVzWVBlc2NhZG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Carrito.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2Fycml0by5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/CervezasYVinosYLicores.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2VydmV6YXNZVmlub3NZTGljb3Jlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -62,8 +58,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ3VlbnRhcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/DashboardEmpleado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGFzaGJvYXJkRW1wbGVhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Detalles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGV0YWxsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Empleados.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRW1wbGVhZG9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Error.cshtml]
@@ -96,6 +104,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/LoginPersonal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW5QZXJzb25hbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9nb3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/Pages/Privacy.cshtml]

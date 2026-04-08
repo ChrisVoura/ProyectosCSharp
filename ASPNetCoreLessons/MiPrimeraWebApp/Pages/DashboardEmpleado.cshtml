@@ -1,0 +1,130 @@
+@page
+@model MiPrimeraWebApp.Pages.DashboardEmpleadoModel
+@{
+    ViewData["Title"] = "Dashboard Empleado";
+}
+
+<div class="container-fluid">
+    <h1 class="mb-4">Dashboard de Empleado</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Productos con Stock Bajo</h5>
+                    <h2 class="mb-0">@Model.ProductosStockBajo</h2>
+                    <small>Productos con menos de 10 unidades</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Pedidos Recientes</h5>
+                    <h2 class="mb-0">@Model.PedidosRecientes</h2>
+                    <small>Pedidos de los últimos 7 días</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Productos con Stock Bajo</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.ProductosStockBajoLista.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Categoría</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var producto in Model.ProductosStockBajoLista)
+                                {
+                                    <tr>
+                                        <td>@producto.Name</td>
+                                        <td>$@producto.Price.ToString("F2")</td>
+                                        <td>
+                                            <span class="badge bg-danger">@producto.Stock</span>
+                                        </td>
+                                        <td>@producto.Category</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay productos con stock bajo.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Pedidos Recientes</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.PedidosRecientesLista.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pedido in Model.PedidosRecientesLista)
+                                {
+                                    <tr>
+                                        <td>#@pedido.Id</td>
+                                        <td>@pedido.Cliente?.Name</td>
+                                        <td>@pedido.FechaPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>$@pedido.Total.ToString("F2")</td>
+                                        <td>
+                                            @switch (pedido.Estado)
+                                            {
+                                                case "Pendiente":
+                                                    <span class="badge bg-warning">Pendiente</span>
+                                                    break;
+                                                case "EnProceso":
+                                                    <span class="badge bg-info">En Proceso</span>
+                                                    break;
+                                                case "Completado":
+                                                    <span class="badge bg-success">Completado</span>
+                                                    break;
+                                                case "Cancelado":
+                                                    <span class="badge bg-danger">Cancelado</span>
+                                                    break;
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay pedidos recientes.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,19 +39,28 @@ namespace MiPrimeraWebApp.Pages
 
         public List<Producto> Productos { get; set; }
 
+        public string UsuarioRol { get; set; } = "";
+
         public ProductosModel(AppDbContext db)
         {
             _db = db;
             Productos = new List<Producto>();
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            UsuarioRol = HttpContext.Session.GetString("UsuarioRol") ?? "";
+            
+            if (UsuarioRol != "Administrador" && UsuarioRol != "Empleado")
+            {
+                return RedirectToPage("/Index");
+            }
             Productos = _db.Productos.ToList();
 
             if (Productos.Count == 0)
             {
                 ModelState.AddModelError("Productos", "No hay productos disponibles.");
             }
+            return Page();
         }
 
         public async Task<IActionResult> OnPost()

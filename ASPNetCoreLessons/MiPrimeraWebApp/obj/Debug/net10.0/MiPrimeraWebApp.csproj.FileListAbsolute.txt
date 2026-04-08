@@ -520,7 +520,6 @@
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/nezrqnk58p-{0}-muycvpuwrr-muycvpuwrr.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/v0zgfp0y55-{0}-87fc7y1x7t-87fc7y1x7t.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/yfc7ypekbg-{0}-mlv21k5csn-mlv21k5csn.gz
-/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/ybhfzvazpc-{0}-wcmuwrxl19-wcmuwrxl19.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/rle7vfatec-{0}-bqjiyaj88i-bqjiyaj88i.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/wql9udzfvh-{0}-c2jlpeoesf-c2jlpeoesf.gz
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/vrrxibldsj-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -593,4 +592,5 @@
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/MiPrimeraWebApp.pdb
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/MiPrimeraWebApp.genruntimeconfig.cache
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/ref/MiPrimeraWebApp.dll
-/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/xm0dg0r3ro-{0}-38s8liyuj7-38s8liyuj7.gz
+/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/ybhfzvazpc-{0}-52cioorm6g-52cioorm6g.gz
+/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/xm0dg0r3ro-{0}-joyaeyt371-joyaeyt371.gz

@@ -52,6 +52,7 @@
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Fecha de Contratación</th>
+                    <th>Fecha de Despido</th>
                     <th>Puesto</th>
                 </tr>
             </thead>
@@ -63,9 +64,18 @@
                         <td>@emp.Nombre @emp.Apellido</td>
                         <td>@emp.Email</td>
                         <td>@emp.FechaContratacion.ToString("yyyy-MM-dd")</td>
+                        <td>@if(emp.FechaDespido == null)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                emp.FechaDespido?.ToString("yyyy-MM-dd");
+                            }
+                        </td>
                         <td>@emp.Puesto</td>
                         <td>
-<form method="post" asp-page-handler="Eliminar" onsubmit="return confirm('¿Confirma que desea eliminar este empleado?');">
+                            <form method="post" asp-page-handler="Eliminar" onsubmit="return confirm('¿Confirma que desea eliminar este empleado?');">
                                 <input type="hidden" name="id" value="@emp.Id" />
                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                              </form>

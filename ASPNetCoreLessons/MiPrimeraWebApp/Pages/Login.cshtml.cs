@@ -66,7 +66,19 @@ namespace MiPrimeraWebApp.Pages
             
             var cliente = _db.Clientes.FirstOrDefault(c => c.Email != null && c.Email.ToLower() == emailIngresado.ToLower());
             
-            if (cliente != null && BCrypt.Net.BCrypt.Verify(passwordIngresado, cliente.Password))
+            if (cliente == null)
+            {
+                ViewData["ErrorMessage"] = "Usuario no encontrado";
+                return Page();
+            }
+            
+            if (string.IsNullOrEmpty(cliente.Password))
+            {
+                ViewData["ErrorMessage"] = "El usuario no tiene contraseña configurada";
+                return Page();
+            }
+            
+            if (BCrypt.Net.BCrypt.Verify(passwordIngresado, cliente.Password))
             {
                 HttpContext.Session.SetString("UsuarioId", cliente.Id.ToString());
                 HttpContext.Session.SetString("UsuarioNombre", $"{cliente.Name} {cliente.Apellido}");

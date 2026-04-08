@@ -19,9 +19,12 @@
     <script type="importmap"></script>
     <link rel="icon" type="image/png" href="~/logo.png?v=1" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MiPrimeraWebApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 
@@ -88,7 +91,7 @@
                     <div class="form-check form-switch ms-auto me-3">
                         <input class="form-check-input" type="checkbox" role="switch" id="themeSwitch">
                         <label class="form-check-label" for="themeSwitch">
-                            <i class="bi bi-moon-stars-fill text-secondary" id="themeIcon">Modo Oscuro</i>
+                            <i class="bi bi-sun-fill text-warning" id="themeIcon"></i>
                         </label>
                     </div>
                     <div>
@@ -136,10 +139,42 @@
         @RenderBody()
     </main>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2026 - Tienda MenosxMas - <a asp-area="" asp-page="/Privacy">Privacidad</a> - <a asp-area=""
-                                                                                                    asp-page="/Contacto">Contacto</a>
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>MenosxMas</h5>
+                    <p class="small mb-0">Tu tienda de conveniencia online con los mejores productos al mejor precio.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" title="Facebook"><span><img width="35" height="35" src="https://img.icons8.com/stickers/100/facebook.png" alt="facebook"/></span></a>
+                        <a href="#" title="Instagram"><span><img width="35" height="35" src="https://img.icons8.com/stickers/100/instagram-new--v2.png" alt="instagram-new--v2"/></span></a>
+                        <a href="#" title="WhatsApp"><span><img width="35" height="35" src="https://img.icons8.com/stickers/100/whatsapp.png" alt="whatsapp"/></span></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="small">
+                        <li><a asp-page="/Index">Inicio</a></li>
+                        <li><a asp-page="/Buscar">Buscar Productos</a></li>
+                        <li><a asp-page="/Cuentas">Mi Cuenta</a></li>
+                        <li><a asp-page="/Contacto">Contáctanos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Categorías</h5>
+                    <ul class="small">
+                        <li><a href="/Abarrotes">Abarrotes</a></li>
+                        <li><a href="/FrutasYVerduras">Frutas y Verduras</a></li>
+                        <li><a href="/LacteosYHuevos">Lácteos y Huevos</a></li>
+                        <li><a href="/CarnesYPescado">Carnes y Pescado</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 MenosxMas. Todos los derechos reservados. 
+                <a asp-page="/Privacy" class="ms-2">Privacidad</a> | 
+                <a asp-page="/Contacto" class="ms-2">Contacto</a>
+            </div>
         </div>
     </footer>
 

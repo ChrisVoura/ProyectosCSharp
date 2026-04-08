@@ -34,11 +34,11 @@ function setThemeIcon(theme) {
   if (!themeIcon) return;
 
   if (theme === "dark") {
-    themeIcon.classList.remove("bi-moon-stars-fill");
-    themeIcon.classList.add("bi-sun-fill", "text-warning");
+    themeIcon.classList.remove("bi-sun-fill");
+    themeIcon.classList.add("bi-moon-fill");
   } else {
-    themeIcon.classList.remove("bi-sun-fill", "text-warning");
-    themeIcon.classList.add("bi-moon-stars-fill", "text-secondary");
+    themeIcon.classList.remove("bi-moon-fill");
+    themeIcon.classList.add("bi-sun-fill");
   }
 }
 

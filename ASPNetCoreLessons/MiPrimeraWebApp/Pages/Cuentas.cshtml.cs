@@ -308,7 +308,6 @@ namespace MiPrimeraWebApp.Pages
             
             return RedirectToPage("/Cuentas");
         }
-
         public IActionResult OnPostAgregarDireccion()
         {
             var usuarioId = HttpContext.Session.GetString("UsuarioId");

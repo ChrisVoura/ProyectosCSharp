@@ -28,8 +28,8 @@ namespace MiPrimeraWebApp.Pages
                 return RedirectToPage("/Index");
             }
             
-            TotalClientes = _db.Clientes.Count();
-            TotalEmpleados = _db.Empleados.Count();
+            TotalClientes = _db.Clientes.Count(c => c.Rol == "Cliente");
+            TotalEmpleados = _db.Empleados.Count( e => e.Rol == "Empleado");
             TotalProductos = _db.Productos.Count();
             ProductosStockBajo = _db.Productos.Count(p => p.Stock < 10);
             

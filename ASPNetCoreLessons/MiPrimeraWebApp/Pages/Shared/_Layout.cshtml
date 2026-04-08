@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var usuarioRol = Context.Session.GetString("UsuarioRol");
+    var usuarioNombre = Context.Session.GetString("UsuarioNombre");
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -25,28 +29,46 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand"id="layoutLink" asp-area="" asp-page="/Index">MenosxMas</a>
+                <a class="navbar-brand" id="layoutLink" asp-area="" asp-page="/Index">MenosxMas</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Contacto">Contacto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Cuentas">Mi Cuenta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Productos">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Clientes">Clientes</a>
-                        </li>
+                        @if (usuarioRol == null || usuarioRol == "Cliente" || usuarioRol == "Administrador")
+                        {
+                            <li class="nav-item">
+                                <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            </li>
+                        }
+                        @if (usuarioRol == "Administrador")
+                        {
+                            <li class="nav-item">
+                                <a id="layoutLink" class="nav-link text-dark" asp-area=""
+                                   asp-page="/Dashboard">Dashboard</a>
+                            </li>
+                        }
+                        @if (usuarioRol == "Empleado")
+                        {
+                            <li class="nav-item">
+                                <a id="layoutLink" class="nav-link text-dark" asp-area=""
+                                   asp-page="/DashboardEmpleado">Dashboard</a>
+                            </li>
+                        }
+                        @if (usuarioRol == "Empleado")
+                        {
+                            <li class="nav-item">
+                                <a id="layoutLink" class="nav-link text-dark" asp-area=""
+                                   asp-page="/Productos">Productos</a>
+                            </li>
+                        }
+                        @if (usuarioRol == "Cliente" || usuarioRol == null)
+                        {
+                            <li class="nav-item">
+                                <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/Cuentas">Mi Cuenta</a>
+                            </li>
+                        }
                     </ul>
                     <div class="d-flex align-items-center">
                         <form class="d-flex" asp-page="/Buscar" method="get">
@@ -68,6 +90,31 @@
                         <label class="form-check-label" for="themeSwitch">
                             <i class="bi bi-moon-stars-fill text-secondary" id="themeIcon">Modo Oscuro</i>
                         </label>
+                    </div>
+                    <div>
+                        @if (!string.IsNullOrEmpty(usuarioNombre))
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    @usuarioNombre
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li style="margin-left: 15px;">
+                                        @usuarioRol
+                                    </li>
+                                    <li>
+                                        <form method="post" asp-page="/Logout">
+                                            <button type="submit" class="dropdown-item text-danger">Cerrar Sesión</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a id="layoutLink" class="nav-link text-dark" asp-area="" asp-page="/LoginPersonal">Personal</a>
+                        }
                     </div>
                 </div>
             </div>
@@ -91,7 +138,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - Tienda MenosxMas - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2026 - Tienda MenosxMas - <a asp-area="" asp-page="/Privacy">Privacidad</a> - <a asp-area=""
+                                                                                                    asp-page="/Contacto">Contacto</a>
         </div>
     </footer>
 

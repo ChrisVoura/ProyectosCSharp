@@ -59,16 +59,7 @@ else
             }
         </div>
         <div class="card-footer">
-            <form method="post" asp-page="/Carrito" asp-page-handler="Agregar" asp-route-id="@Model.Producto.Id" style="display:inline;" onsubmit="actualizarIconoCarrito()">
-                @if(Model.Producto.Stock > 0)
-                {
-                    <button type="submit" class="btn btn-success">Agregar al Carrito</button>
-                }
-                else
-                {
-                    <button type="submit" class="btn btn-secondary" disabled>Agotado</button>
-                }
-            </form>
+            <button type="button" class="btn btn-success" onclick="agregarAlCarrito(@Model.Producto.Id)">Agregar al Carrito</button>
         </div>
     </div>
     </div>

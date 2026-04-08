@@ -3,6 +3,19 @@
 
 // Write your JavaScript code.
 
+// Intercept cart form submissions
+document.addEventListener('submit', async function(e) {
+    const form = e.target;
+    if (form.action && form.action.includes('/Carrito') && form.method === 'post') {
+        e.preventDefault();
+        const url = new URL(form.action);
+        const id = url.searchParams.get('id');
+        if (id) {
+            await agregarAlCarrito(id);
+        }
+    }
+});
+
 function setNavbarTheme(theme) {
   const nav = document.querySelector(".navbar");
   if (!nav) return;
@@ -63,41 +76,56 @@ if (document.readyState === "loading") {
   initThemeSwitcher();
 }
 
-async function cargarCarrito() {
-  const res = await fetch("/Carrito?handler=Contenido");
-  document.getElementById("carritoContenido").innerHTML = await res.text();
-}
-
 async function actualizarIconoCarrito() {
   try {
-    const res = await fetch("/Carrito?handler=CarritoCount");
-    const data = await res.json();
+    const res = await fetch("/api/carrito/count");
+    const text = await res.text();
+    var count = text;
+    if (count.startsWith('"') && count.endsWith('"')) {
+      count = count.slice(1, -1);
+    }
     const img = document.getElementById("carritoIcon");
     if (img) {
-      img.src =
-        data.count > 0
+      img.src = parseInt(count) > 0
           ? "https://img.icons8.com/keek-line/48/shopping-cart-loaded.png"
           : "https://img.icons8.com/keek-line/48/shopping-cart.png";
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error('[Carrito] Error count:', e);
+  }
+}
+
+async function agregarAlCarrito(productoId) {
+    const formData = new FormData();
+    formData.append('id', productoId);
+    const res = await fetch('/api/carrito/agregar', { method: 'POST', body: formData });
+    await actualizarIconoCarrito();
+}
+
+async function cargarCarrito() {
+  const res = await fetch("/api/carrito/html");
+  const html = await res.text();
+  var clean = html;
+  if (clean.startsWith('"') && clean.endsWith('"')) {
+    clean = clean.slice(1, -1);
+  }
+  document.getElementById("carritoContenido").innerHTML = clean;
 }
 
 async function limpiarCarrito() {
-  await fetch("/Carrito?handler=Limpiar");
+  await fetch("/api/carrito/limpiar", { method: 'POST' });
   await cargarCarrito();
   await actualizarIconoCarrito();
 }
 
 async function cambiarCantidad(id, delta) {
-  await fetch(
-    "/Carrito?handler=CambiarCantidad&id=" + id + "&cantidad=" + delta,
-  );
+  await fetch("/api/carrito/cambiar?id=" + id + "&delta=" + delta, { method: 'POST' });
   await cargarCarrito();
   await actualizarIconoCarrito();
 }
 
 async function eliminarProducto(id) {
-  await fetch("/Carrito?handler=EliminarProducto&id=" + id);
+  await fetch("/api/carrito/eliminar?id=" + id, { method: 'POST' });
   await cargarCarrito();
   await actualizarIconoCarrito();
 }
@@ -175,18 +203,12 @@ if (deleteModal) {
     const perfilForm = document.getElementById('perfilForm');
 if (perfilForm) {
     perfilForm.addEventListener('submit', function(e) {
-        console.log('Submit triggered');
-        console.log('nombreInput value:', document.getElementById('nombreInput').value);
-        console.log('hiddenNombre value before:', document.getElementById('hiddenNombre').value);
-        
         document.getElementById('hiddenNombre').value = document.getElementById('nombreInput').value;
         document.getElementById('hiddenApellido').value = document.getElementById('apellidoInput').value;
         document.getElementById('hiddenEmail').value = document.getElementById('emailInput').value;
         document.getElementById('hiddenTelefono').value = document.getElementById('telefonoInput').value;
         document.getElementById('hiddenGenero').value = document.getElementById('generoInput').value;
         document.getElementById('hiddenFechaNacimiento').value = document.getElementById('fechaNacimientoInput').value;
-        
-        console.log('hiddenNombre value after:', document.getElementById('hiddenNombre').value);
     });
 }
 
@@ -291,7 +313,6 @@ function agregarAListaEspecifica(productoId, listaId, btn) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Agregar resultado:', data);
         const heartBtn = document.querySelector(`button[onclick*="agregarALista(${productoId}"]`);
         showToast(data.success ? 'Producto agregado a la lista' : (data.message || 'Error al agregar'), !data.success, heartBtn);
         if (heartBtn && heartBtn._popover) {
@@ -369,9 +390,7 @@ async function agregarListaAlCarrito(listaId) {
         body: 'ListaId=' + listaId + '&__RequestVerificationToken=' + encodeURIComponent(token || '')
     });
     
-    console.log('Response status:', response.status);
     const data = await response.json();
-    console.log('Response data:', data);
     
     if (data.success) {
         showToast('Productos agregados al carrito', false);
@@ -379,6 +398,10 @@ async function agregarListaAlCarrito(listaId) {
     } else {
         showToast(data.message || 'Error al agregar al carrito', true);
     }
+}
+
+async function agregarCarritoAjax(productoId) {
+    actualizarIconoCarrito();
 }
 
 document.querySelectorAll('.descuento-checkbox').forEach(checkbox => {

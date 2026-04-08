@@ -1,7 +1,7 @@
 @page
-@model LoginModel
+@model LoginPersonalModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Login Personal";
 }
 
 <div class="d-flex align-items-center justify-content-center" style="min-height: 70vh;">
@@ -15,10 +15,10 @@
 
         @if (Model.ShowPassword)
         {
-            <div class="alert alert-success" role="alert">
-                Cuenta encontrada. Ingrese su contraseña.
-            </div>
             <form method="post" asp-page-handler="Login">
+                <div class="alert alert-success" role="alert">
+                    Cuenta encontrada. Ingrese su contraseña.
+                </div>
                 <input type="hidden" name="Email" value="@Model.EmailVal" />
                 <div class="mb-3">
                     <label class="form-label">Contraseña</label>
@@ -26,23 +26,18 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
             </form>
-            <hr />
-            <a href="/Login" class="btn btn-outline-secondary w-100">Volver</a>
         }
         else
         {
             <form method="post" asp-page-handler="Verificar">
-                <i style="font-size: 15px;">¿No estás seguro de tener una cuenta? Ingresa tu correo y lo comprobaremos por
-                    ti.</i>
-                    <div class="mb-3">
-                        <br />
-                        <label class="form-label">Email</label>
-                        <input name="Email" class="form-control" type="email" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Continuar</button>
-                </form>
-                <hr />
-                <a href="/" class="btn btn-outline-secondary w-100">Volver al Inicio</a>
-            }
-        </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input name="Email" class="form-control" type="email" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Continuar</button>
+            </form>
+        }
+        <hr />
+        <a href="/" class="btn btn-outline-secondary w-100">Volver al Inicio</a>
     </div>
+</div>

@@ -593,4 +593,4 @@
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/MiPrimeraWebApp.pdb
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/MiPrimeraWebApp.genruntimeconfig.cache
 /home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/ref/MiPrimeraWebApp.dll
-/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/xm0dg0r3ro-{0}-a06ygjen53-a06ygjen53.gz
+/home/vouracious/Documents/Proyectos/ProyectosCSharp/ASPNetCoreLessons/MiPrimeraWebApp/obj/Debug/net10.0/compressed/xm0dg0r3ro-{0}-38s8liyuj7-38s8liyuj7.gz

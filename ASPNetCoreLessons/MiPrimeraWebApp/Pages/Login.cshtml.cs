@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MiPrimeraWebApp.Data;
-using System.Text.RegularExpressions;
 
 
 namespace MiPrimeraWebApp.Pages
@@ -40,7 +39,15 @@ namespace MiPrimeraWebApp.Pages
             var cliente = _db.Clientes
                 .FirstOrDefault(c => c.Email != null && c.Email.ToLower() == emailIngresado.ToLower());
             
-            if (cliente != null)
+            var empleado = _db.Empleados
+                .FirstOrDefault(e => e.Email != null && e.Email.ToLower() == emailIngresado.ToLower());
+            
+            if (empleado != null)
+            {
+                ViewData["ErrorMessage"] = "Este correo no se puede utilizar. Utilize el login de personal.";
+                return Page();
+            }
+            else if (cliente != null)
             {
                 EmailVal = emailIngresado;
                 ShowPassword = true;
@@ -52,7 +59,7 @@ namespace MiPrimeraWebApp.Pages
             }
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPostLogin()
         {
             var emailIngresado = Request.Form["Email"].ToString();
             var passwordIngresado = Request.Form["Password"].ToString();
@@ -63,6 +70,7 @@ namespace MiPrimeraWebApp.Pages
             {
                 HttpContext.Session.SetString("UsuarioId", cliente.Id.ToString());
                 HttpContext.Session.SetString("UsuarioNombre", $"{cliente.Name} {cliente.Apellido}");
+                HttpContext.Session.SetString("UsuarioRol", "Cliente");
                 return RedirectToPage("/Index");
             }
             

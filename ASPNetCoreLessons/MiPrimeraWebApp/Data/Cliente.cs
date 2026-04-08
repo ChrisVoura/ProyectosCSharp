@@ -23,4 +23,6 @@ public  class Cliente
     public string? Direccion { get; set; }
 
     public DateTime? fechaNacimiento { get; set; }
+
+    public string Rol { get; set; } = "Cliente";
 }

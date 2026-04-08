@@ -12,9 +12,17 @@ public class ErrorModel : PageModel
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-    public void OnGet()
+    public string UsuarioRol { get; set; } = "";
+    public IActionResult OnGet()
     {
+        UsuarioRol = HttpContext.Session.GetString("UsuarioRol") ?? "";
+
+        if (UsuarioRol != "Administrador")
+        {
+            return RedirectToPage("/Index");
+        }
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        return Page();
     }
 }
 

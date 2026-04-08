@@ -30,6 +30,7 @@
         <tbody>
             @foreach(var cliente in Model.Clientes)
             {
+                @if(cliente.Rol == "Cliente"){
                 <tr>
                     <td>@cliente.Id</td>
                     <td>@cliente.Name @cliente.Apellido</td>
@@ -37,9 +38,13 @@
                     <td>@cliente.FechaRegistro.ToString("dd/MM/yyyy")</td>
                     <td>@cliente.Direccion</td>
                     <td>
-                        <a asp-page="/Clientes" asp-route-id="@cliente.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        <form method="post" asp-page-handler="Delete" onsubmit="return confirm('¿Confirma que desea eliminar este cliente?');">
+                            <input type="hidden" name="id" value="@cliente.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
+                }
             }
         </tbody>
     </Table>

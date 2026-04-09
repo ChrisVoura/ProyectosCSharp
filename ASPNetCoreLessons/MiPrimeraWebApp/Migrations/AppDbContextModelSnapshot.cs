@@ -65,6 +65,32 @@ namespace MiPrimeraWebApp.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("MiPrimeraWebApp.Data.Comentario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaCreaciacion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("valor")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comentarios");
+                });
+
             modelBuilder.Entity("MiPrimeraWebApp.Data.Empleado", b =>
                 {
                     b.Property<int>("Id")

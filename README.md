@@ -4,7 +4,7 @@ Colección de aplicaciones desarrolladas en .NET para [propósito: aprendizaje/g
 ## Tecnologías
 - .NET 10 / C# 12
 - Entity Framework Core
-- SQL Server / SQLite
+- SQL Server / SQLite /PostgreSQL
 
 ## Instalación
 1. Clone el repositorio: `git clone ...`

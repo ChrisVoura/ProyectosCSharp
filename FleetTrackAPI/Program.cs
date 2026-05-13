@@ -22,7 +22,7 @@ builder.Services.AddControllers()
 builder.Services.AddOpenApi();
 
 //Base de datos
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
 

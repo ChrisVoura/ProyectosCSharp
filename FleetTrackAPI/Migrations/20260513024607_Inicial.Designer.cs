@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FleetTrackAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260513023157_FixColumnasId")]
-    partial class FixColumnasId
+    [Migration("20260513024607_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

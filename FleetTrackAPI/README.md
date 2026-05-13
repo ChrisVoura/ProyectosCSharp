@@ -8,3 +8,7 @@ API REST para gestión de transporte y entregas empresariales.
 - JWT + BCrypt
 ## Autenticación
 Todos los endpoints requieren JWT excepto `/api/auth/registro` y `/api/auth/login`.
+
+# Despliegue
+En render https://fleettrack-api-f1cf.onrender.com / api/ controller 
+Recomedado usar algun gestor de APIS

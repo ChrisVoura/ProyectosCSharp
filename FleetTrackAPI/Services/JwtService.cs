@@ -37,7 +37,7 @@ namespace FleetTrackAPI.Services
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Issuer"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(double.Parse(_config["Jwt:ExpiresHours"]!)),
+                expires: DateTime.Now.AddHours(double.Parse(_config["Jwt:ExpireHours"]!)),
                 signingCredentials: creds
             );
             return new JwtSecurityTokenHandler().WriteToken(token);

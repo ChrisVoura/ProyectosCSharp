@@ -1,2 +1,10 @@
-API de Gestión de Transporte y Entregas
-FleetTrack API — Sistema de gestión de flota y entregas para empresas medianas.
+# FleetTrack API
+
+API REST para gestión de transporte y entregas empresariales.
+
+## Tecnologías
+- ASP.NET Core / C# / .NET 10
+- Entity Framework Core + SQLite
+- JWT + BCrypt
+## Autenticación
+Todos los endpoints requieren JWT excepto `/api/auth/registro` y `/api/auth/login`.

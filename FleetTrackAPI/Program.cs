@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using FleetTrackAPI.Data;
 using FleetTrackAPI.Middleware;
 using FleetTrackAPI.Services;
+using FleetTrackAPI.Respositories;
 
 
 
@@ -22,13 +23,20 @@ builder.Services.AddOpenApi();
 
 //Base de datos
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration
+    options.UseNpgsql(builder.Configuration
     .GetConnectionString("DefaultConnection")));
+    
 
 
 // JWT
 builder.Services.AddScoped<JwtService>();
 
+//Repositorios
+builder.Services.AddScoped<IConductorRepository, ConductorRepository>();
+builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IEntregaRepository, EntregaRepository>();
 
 //Autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

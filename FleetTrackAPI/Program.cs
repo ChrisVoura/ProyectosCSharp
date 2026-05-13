@@ -22,11 +22,13 @@ builder.Services.AddControllers()
 builder.Services.AddOpenApi();
 
 //Base de datos
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration
-    .GetConnectionString("DefaultConnection")));
-    
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
+    
 
 // JWT
 builder.Services.AddScoped<JwtService>();
